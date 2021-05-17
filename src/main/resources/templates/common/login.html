@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<th:block th:insert="fragments/base :: header"></th:block>
+</head>
+<body>
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-xl-5 col-lg-12 col-md-9">
+			<div class="my-5">
+				<div class="p-5">
+					<div class="text-center">
+						<h1 class="mb-5">DIARY</h1>
+					</div>
+					<div class="alert alert-danger" th:if="${param.error}">
+                    <small>ユーザ名またはパスワードが正しくありません</small>
+                  </div>
+                  <div class="alert alert-success" th:if="${param.register}">
+                    <small>ユーザを新規登録しました</small>
+                  </div>
+                  <div class="alert alert-success" th:if="${param.logout}">
+                    <small>ログアウトしました</small>
+                  </div>
+				
+				<form th:action="@{/login}" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control form-control-"
+						name="username" placeholder="アカウント名">
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control form-control-"
+						name="password" placeholder="パスワード">
+					</div>
+					<div class="form-group">
+						<div class="custom-control custom-checkbox small">
+							<input type="checkbox" class="custom-control-input"
+							id="remember-me" name="remember-me">
+							<label class="custom-control-label" for="remember-me">
+								ログイン情報を保存する
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-dark btn-block">
+						ログイン
+						</button>
+					</div>
+				</form>
+					<a th:href="@{/register}">
+						<button class="btn btn-light btn- btn-block">
+						新規登録
+						</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
