@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<th:block th:fragment="sidebar">
+		<!-- プロフィール画像 -->
+		<div>
+			<img alt="プロフィール画像" src="">
+		</div>
+		<!-- アカウント名 -->
+		<div th:text="${username}"></div>
+		<!-- フォロー/プロフィール編集ボタン -->
+		<div>
+			<button>プロフィール編集</button>
+		</div>
+		<!-- 検索フォーム -->
+		<div>
+			<input type="text">
+		</div>
+		<!-- サイドメニュー -->
+		<div>
+			<ul>
+				<li>
+					<a th:href="@{/}">
+						ホーム
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/follow}">
+						フォロー
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/article}">
+						過去記事
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/like}">
+						いいね
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/bookmark}">
+						ブックマーク
+					</a>
+				</li>
+			</ul>
+		</div>
+	</th:block>
+</body>
+</html>

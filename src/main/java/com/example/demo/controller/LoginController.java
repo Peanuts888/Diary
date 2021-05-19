@@ -14,10 +14,9 @@ public class LoginController {
         return "/common/login";
     }
 
-    @PostMapping("/")
+    @GetMapping("/")
     public String home(Authentication loginUser, Model model) {
         model.addAttribute("username", loginUser.getName());
-        model.addAttribute("role", loginUser.getAuthorities());
         return "/blogs/home";
     }
 }

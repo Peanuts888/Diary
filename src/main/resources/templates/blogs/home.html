@@ -1,44 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<th:block th:insert="fragments/base :: header"></th:block>
 </head>
 <body>
-<div class="container">
-	<div class="row justify-content-center">
-		<div class="col-xl-5 col-lg-12 col-md-9">
-			<div class="my-5">
-				<div class="p-5">
-					<div class="text-center">
-						<h1 class="mb-5">サービス名</h1>
-					</div>
-					<div class="alert alert-danger" th:if="${param.error}">
-                    <small>ユーザ名またはパスワードを入力してください。</small>
-                  </div>
-				
-				<form th:action="@{/login}" method="post">
-					<div class="form-group">
-						<input type="text" class="form-control form-control-"
-						name="accountname" placeholder="アカウント名">
-					</div>
-					<div class="form-group">
-						<input type="password" class="form-control form-control-"
-						name="password" placeholder="パスワード">
-					</div>
-					<button class="btn btn-dark btn-block">
-					登録
-					</button>
-				</form>
-					<a th:href="@{/register}">
-						<button class="btn btn-light btn- btn-block">
-						戻る
-						</button>
-					</a>
+	<div class="container">
+		<div class="row justify-content-center">
+			<header>
+				<div style="width:100%;">
+					<img alt="ヘッダーイメージ" src="C:/Users/love_/Pictures/Picture/tiwtter-header-image_1.jpg">
 				</div>
+			</header>
+		
+		<div class="container">
+			<div>
+				<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+			</div>
+			<div>
+				<div>
+					
+				</div>
+			</div>
 			</div>
 		</div>
 	</div>
-</div>
 </body>
 </html>
