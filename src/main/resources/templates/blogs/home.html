@@ -18,8 +18,12 @@
 				<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 			</div>
 			<div>
-				<div>
-					
+				<div th:text="${profile}"></div>
+				<div th:each="article : ${articles}" th:object="${article}">
+					<div th:text="*{title}"></div>
+					<div th:text="*{body}"></div>
+					<div th:text="*{comment}"></div>
+					<div th:text="*{like}"></div>
 				</div>
 			</div>
 			</div>

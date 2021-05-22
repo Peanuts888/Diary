@@ -4,8 +4,6 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -18,11 +16,12 @@ import lombok.Setter;
 @Table(name="users")
 public class Users {
 
-	@Id
-    @Column(name = "id", length = 30, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+//	@Id
+//    @Column(name = "id", length = 30, nullable = false)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
 	
+	@Id
 	@NotBlank
 	@Column(name = "username", length = 60, nullable = false)
     private String username;
@@ -42,11 +41,14 @@ public class Users {
 	
 	@Column(name = "role", length = 120, nullable = false)
 	private String role;
-	private boolean admin;
+	
+	/** 有効フラグ. */
+	@Column(name = "is_enabled", nullable = false)
+	private boolean isEnabled;
 	
 	@Column(name = "icon")
     private byte[] icon;
 	
-	@Column(name = "backgraund")
-    private byte[] backgraund;
+	@Column(name = "header_image")
+    private byte[] headerImage;
 }
