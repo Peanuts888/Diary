@@ -5,14 +5,16 @@
 </head>
 <body>
 	<th:block th:fragment="sidebar">
-		<!-- プロフィール画像 -->
-		<div>
-			<img alt="プロフィール画像" src="">
+		<div th:object="${user}">
+			<!-- プロフィール画像 -->
+			<div>
+				<img th:src="*{icon}">
+			</div>
+			<!-- アカウント名 -->
+			<div th:text="*{username}"></div>
+			<!-- フォロー/プロフィール編集ボタン -->
+			<div>
 		</div>
-		<!-- アカウント名 -->
-		<div th:text="${username}"></div>
-		<!-- フォロー/プロフィール編集ボタン -->
-		<div>
 			<button>プロフィール編集</button>
 		</div>
 		<!-- 検索フォーム -->

@@ -39,8 +39,11 @@ public class RegisterController {
     	Users user = registerForm.toEntity();
     	
     	Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-		user.setCreateDate(currentTime);
+		user.setCreatedDate(currentTime);
 		user.setRole("user");
+		user.setEnabled(true);
+		user.setProfile("自己紹介");
+		user.setLink("URL");
 
         userService.save(user);
 

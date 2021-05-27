@@ -18,7 +18,14 @@
 				<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 			</div>
 			<div>
-				<div th:text="${profile}"></div>
+				<!-- プロフィール -->
+				<div th:object="${user}">
+				<!-- 
+				 -->
+					<div th:text="*{profile}"></div>
+					<div th:text="*{link}"></div>
+				</div>
+				<!-- 記事 -->
 				<div th:each="article : ${articles}" th:object="${article}">
 					<div th:text="*{title}"></div>
 					<div th:text="*{body}"></div>

@@ -15,12 +15,11 @@ import lombok.Setter;
 @Setter
 public class UserForm {
 
-//	@Id
-//    @Column(name = "id", length = 30, nullable = false)
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
-	
 	@Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+	
 	@NotBlank
 	@Column(name = "username", length = 60, nullable = false)
     private String username;
@@ -50,7 +49,7 @@ public class UserForm {
 	 * @param user User(Entityクラス)
 	 */
 	public UserForm(Users user) {
-//		this.setId(user.getId());
+		this.setId(user.getId());
 		this.setUsername(user.getUsername());
 		this.setIcon(user.getIcon());
 		this.setHeaderImage(user.getHeaderImage());
@@ -66,7 +65,7 @@ public class UserForm {
 	public Users toEntity() {
 
 		Users user = new Users();
-//		user.setId(this.getId());
+		user.setId(this.getId());
 		user.setUsername(this.getUsername());
 		user.setIcon(this.getIcon());
 		user.setHeaderImage(this.getHeaderImage());

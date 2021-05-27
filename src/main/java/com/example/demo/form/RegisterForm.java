@@ -15,12 +15,11 @@ import lombok.Setter;
 @Setter
 public class RegisterForm {
 
-//	@Id
-//    @Column(name = "id", length = 30, nullable = false)
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
-	
 	@Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+	
 	@NotBlank
 	@Column(name = "username", length = 60, nullable = false)
     private String username;
@@ -37,7 +36,7 @@ public class RegisterForm {
 	public Users toEntity() {
 
 		Users user = new Users();
-//		user.setId(this.getId());
+		user.setId(this.getId());
 		user.setUsername(this.getUsername());
 		user.setPassword(this.getPassword());
 
