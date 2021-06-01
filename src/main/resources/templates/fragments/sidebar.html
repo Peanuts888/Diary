@@ -15,7 +15,13 @@
 			<!-- フォロー/プロフィール編集ボタン -->
 			<div>
 		</div>
-			<button>プロフィール編集</button>
+		<div>
+			<a th:href="@{/user_management/edit}">
+				<button>
+				プロフィール編集
+				</button>
+			</a>
+		</div>
 		</div>
 		<!-- 検索フォーム -->
 		<div>
@@ -30,13 +36,13 @@
 					</a>
 				</li>
 				<li>
-					<a th:href="@{/follow}">
-						フォロー
+					<a th:href="@{/article}">
+						過去記事
 					</a>
 				</li>
 				<li>
-					<a th:href="@{/article}">
-						過去記事
+					<a th:href="@{/follow}">
+						フォロー
 					</a>
 				</li>
 				<li>

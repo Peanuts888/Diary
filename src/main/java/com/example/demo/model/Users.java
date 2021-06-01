@@ -18,11 +18,11 @@ import lombok.Setter;
 @Table(name="users")
 public class Users {
 
-	@Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-	
+//    @Column(name = "id", nullable = false)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
+//	
+    @Id
 	@NotBlank
 	@Column(name = "username", length = 60, nullable = false)
     private String username;
@@ -30,6 +30,15 @@ public class Users {
 	@NotBlank
 	@Column(name = "password", length = 255, nullable = false)
     private String password;
+	
+	@Column(name = "created_date", nullable = false)
+	private Timestamp createdDate;
+	
+	@Column(name = "role", length = 120, nullable = false)
+	private String role;
+	
+	@Column(name = "display_name", length = 60, nullable = false)
+	private String displayName;
 	
 	@Column(name = "profile", length = 150)
     private String profile;
@@ -42,12 +51,6 @@ public class Users {
 	
 	@Column(name = "header_image")
 	private byte[] headerImage;
-	
-	@Column(name = "created_date", nullable = false)
-    private Timestamp createdDate;
-	
-	@Column(name = "role", length = 120, nullable = false)
-	private String role;
 	
 	/** 有効フラグ. */
 	@Column(name = "is_enabled", nullable = false)

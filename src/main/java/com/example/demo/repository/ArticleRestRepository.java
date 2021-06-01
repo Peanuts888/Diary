@@ -12,4 +12,4 @@ public interface ArticleRestRepository extends PagingAndSortingRepository<Articl
 	
 //	List<Articles> findby();
 	
-}
+} 

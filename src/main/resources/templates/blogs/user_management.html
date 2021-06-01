@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<meta charset="UTF-8">
+	<th:block th:insert="fragments/base :: header"></th:block>
+	<title>プロフィール編集</title>
+</head>
+<body>
+	<div>
+		<div>
+			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+		</div>
+		<!-- プロフィール -->
+		<form th:action="@{/user_management/update}" th:object="${userUpdateForm}" method="post">
+			<div class="">
+				<input type="text" class=""
+				th:errorclass="is-invalid" th:field="*{username}" placeholder="アカウント名">
+				<div class="invalid-feedback" th:errors="*{username}"></div>
+			</div>
+			<div class="">
+				<input type="text" class=""
+				th:errorclass="is-invalid" th:field="*{displayName}" placeholder="アカウント名">
+				<div class="invalid-feedback" th:errors="*{displayName}"></div>
+			</div>
+			<div class="">
+				<input type="text" class=""
+				th:errorclass="is-invalid" th:field="*{profile}" placeholder="自己紹介文">
+				<div class="invalid-feedback" th:errors="*{profile}"></div>
+			</div>
+			<div class="">
+				<input type="text" class=""
+				th:errorclass="is-invalid" th:field="*{link}" placeholder="リンク">
+				<div class="invalid-feedback" th:errors="*{link}"></div>
+			</div>
+			<button class="">
+				保存
+			</button>
+		</form>
+	</div>
+</body>
+</html>

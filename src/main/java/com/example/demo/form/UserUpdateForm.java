@@ -13,16 +13,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserForm {
-
-	@Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class UserUpdateForm {
 	
-	@NotBlank
 	@Column(name = "username", length = 60, nullable = false)
     private String username;
+//	
+//	@Column(name = "password", length = 255, nullable = false)
+//    private String password;
+
+	@Column(name = "display_name", length = 60, nullable = false)
+	private String displayName;
 	
 	@Column(name = "icon")
     private byte[] icon;
@@ -39,7 +39,7 @@ public class UserForm {
 	/**
 	 * コンストラクタ.
 	 */
-	public UserForm() {
+	public UserUpdateForm() {
 
 	}
 
@@ -48,13 +48,14 @@ public class UserForm {
 	 * 
 	 * @param user User(Entityクラス)
 	 */
-	public UserForm(Users user) {
-		this.setId(user.getId());
+	public UserUpdateForm(Users user) {
 		this.setUsername(user.getUsername());
-		this.setIcon(user.getIcon());
-		this.setHeaderImage(user.getHeaderImage());
+//		this.setPassword(user.getPassword());
+		this.setDisplayName(user.getDisplayName());
 		this.setProfile(user.getProfile());
 		this.setLink(user.getLink());
+//		this.setIcon(user.getIcon());
+//		this.setHeaderImage(user.getHeaderImage());
 	}
 	
 	/**
@@ -65,12 +66,13 @@ public class UserForm {
 	public Users toEntity() {
 
 		Users user = new Users();
-		user.setId(this.getId());
 		user.setUsername(this.getUsername());
-		user.setIcon(this.getIcon());
-		user.setHeaderImage(this.getHeaderImage());
+//		user.setPassword(this.getPassword());
+		user.setDisplayName(this.getDisplayName());
 		user.setProfile(this.getProfile());
 		user.setLink(this.getLink());
+//		user.setIcon(this.getIcon());
+//		user.setHeaderImage(this.getHeaderImage());
 
 		return user;
 	}

@@ -45,7 +45,7 @@ public class RegisterController {
 		user.setProfile("自己紹介");
 		user.setLink("URL");
 
-        userService.save(user);
+        userService.insert(user);
 
         return "redirect:/login?register";
     }

@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 	 * @return 該当した1件のデータ
 	 */
 	public Users findOne(String username) {
-		return repository.findByUsername(username);
+		return repository.getOne(username);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 	 * @return 保存したUser(Entityクラス)
 	 */
 	@Transactional
-	public Users save(Users user) {
+	public Users insert(Users user) {
 
 		// パスワード
 		String password = user.getPassword();
@@ -77,6 +77,10 @@ public class UserServiceImpl implements UserService {
 		}
 
 		// データベースにUsers(Entityクラス)を保存
+		return repository.save(user);
+	}
+	
+	public Users update(Users user) {
 		return repository.save(user);
 	}
 }

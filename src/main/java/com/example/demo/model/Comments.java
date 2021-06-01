@@ -35,4 +35,6 @@ public class Comments {
 	@Column(name = "user_id", nullable = false)
     private Integer userId;
 	
+	@Column(name = "article_id", nullable = false)
+	private Integer articleId;
 }

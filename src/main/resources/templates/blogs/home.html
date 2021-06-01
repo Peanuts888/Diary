@@ -3,6 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	<th:block th:insert="fragments/base :: header"></th:block>
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js}"></script>
+	<script>
+		$.getJSON("http://localhost:8080/article/1", function(results) {
+			$('.articles').append(results.title);
+		});
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -20,18 +26,11 @@
 			<div>
 				<!-- プロフィール -->
 				<div th:object="${user}">
-				<!-- 
-				 -->
 					<div th:text="*{profile}"></div>
 					<div th:text="*{link}"></div>
 				</div>
 				<!-- 記事 -->
-				<div th:each="article : ${articles}" th:object="${article}">
-					<div th:text="*{title}"></div>
-					<div th:text="*{body}"></div>
-					<div th:text="*{comment}"></div>
-					<div th:text="*{like}"></div>
-				</div>
+				<div class="articles"></div>
 			</div>
 			</div>
 		</div>
