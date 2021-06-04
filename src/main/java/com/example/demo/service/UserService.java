@@ -6,6 +6,8 @@ import com.example.demo.model.Users;
 
 
 public interface UserService {
+	
+	public Users getById(Integer id);
 
 	/**
 	 * User(Entity)クラスのデータを全件取得する.
@@ -28,7 +30,6 @@ public interface UserService {
 	 * @param user User(Entity)クラス
 	 * @return 保存したUser(Entity)クラス
 	 */
-	public Users insert(Users user);
+	public Users save(Users user);
 	
-	public Users update(Users user);
 }

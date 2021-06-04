@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -33,19 +32,26 @@ public class UserManagementController {
 	}
 	
 	@PostMapping("/update")
-	public void update(@Validated @ModelAttribute UserUpdateForm userUpdateForm,
+	public String update(Authentication loginUser, 
+			@Validated @ModelAttribute UserUpdateForm userUpdateForm,
 			BindingResult result) {
 		
 		if (result.hasErrors()) {
-//            return "/blogs/user_management";
+            return "/blogs/user_management";
         }
 		
-		Users user = userUpdateForm.toEntity();
-//		user.setRole("user");
-//		user.setEnabled(true);
-		userService.update(user);
+		Users user = userService.findOne(loginUser.getName());
 		
-//		return "/blogs/user_management";
+//		user = userUpdateForm.toEntity();
+		user.setDisplayName(userUpdateForm.getDisplayName());
+		user.setProfile(userUpdateForm.getProfile());
+		user.setLink(userUpdateForm.getLink());
+		user.setIcon(userUpdateForm.getIcon());
+		user.setHeaderImage(userUpdateForm.getHeaderImage());
+		
+		userService.save(user);
+		
+		return "redirect:/";
 	}
 
 }

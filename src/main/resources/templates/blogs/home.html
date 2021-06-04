@@ -6,7 +6,8 @@
 	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js}"></script>
 	<script>
 		$.getJSON("http://localhost:8080/article/1", function(results) {
-			$('.articles').append(results.title);
+			$('.title').append(results.title);
+			$('.content').append(results.content);
 		});
 	</script>
 </head>
@@ -15,7 +16,7 @@
 		<div class="row justify-content-center">
 			<header>
 				<div style="width:100%;">
-					<img alt="ヘッダーイメージ" src="C:/Users/love_/Pictures/Picture/tiwtter-header-image_1.jpg">
+					<img alt="ヘッダー画像" th:src="@{user.headerImage}">
 				</div>
 			</header>
 		
@@ -30,7 +31,10 @@
 					<div th:text="*{link}"></div>
 				</div>
 				<!-- 記事 -->
-				<div class="articles"></div>
+				<div>
+					<div class="title"></div>
+					<div class="content"></div>
+				</div>
 			</div>
 			</div>
 		</div>

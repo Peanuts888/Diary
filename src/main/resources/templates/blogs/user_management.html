@@ -13,9 +13,14 @@
 		<!-- プロフィール -->
 		<form th:action="@{/user_management/update}" th:object="${userUpdateForm}" method="post">
 			<div class="">
-				<input type="text" class=""
-				th:errorclass="is-invalid" th:field="*{username}" placeholder="アカウント名">
-				<div class="invalid-feedback" th:errors="*{username}"></div>
+				<img alt="プロフィール画像" th:src="*{icon}">
+				<input type="file" accept=".jpg,.jpeg,.png" class=""
+				th:field="*{icon}">
+			</div>
+			<div class="">
+				<img alt="ヘッダー画像" th:src="*{headerImage}">
+				<input type="file" accept=".jpg,.jpeg,.png" class=""
+				th:field="*{headerImage}">
 			</div>
 			<div class="">
 				<input type="text" class=""
@@ -32,6 +37,7 @@
 				th:errorclass="is-invalid" th:field="*{link}" placeholder="リンク">
 				<div class="invalid-feedback" th:errors="*{link}"></div>
 			</div>
+			
 			<button class="">
 				保存
 			</button>

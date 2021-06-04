@@ -8,6 +8,6 @@ import com.example.demo.model.Articles;
 @Repository
 public interface ArticleRepository extends JpaRepository<Articles, Integer> {
 	
-//	Articles findBy();
+
 	
 }

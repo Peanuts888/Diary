@@ -10,6 +10,6 @@ import com.example.demo.model.Articles;
 @RepositoryRestResource(collectionResourceRel = "article", path = "article")
 public interface ArticleRestRepository extends PagingAndSortingRepository<Articles, Integer> {
 	
-//	List<Articles> findby();
+
 	
 } 

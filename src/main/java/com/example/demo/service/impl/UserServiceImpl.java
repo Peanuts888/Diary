@@ -29,6 +29,10 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	public Users getById(Integer id) {
+		return repository.getById(id);
+	}
 
 	/**
 	 * User(Entity)クラスのデータを全件取得する.
@@ -46,7 +50,7 @@ public class UserServiceImpl implements UserService {
 	 * @return 該当した1件のデータ
 	 */
 	public Users findOne(String username) {
-		return repository.getOne(username);
+		return repository.findByUsername(username);
 	}
 
 	/**
@@ -56,7 +60,7 @@ public class UserServiceImpl implements UserService {
 	 * @return 保存したUser(Entityクラス)
 	 */
 	@Transactional
-	public Users insert(Users user) {
+	public Users save(Users user) {
 
 		// パスワード
 		String password = user.getPassword();
@@ -80,7 +84,4 @@ public class UserServiceImpl implements UserService {
 		return repository.save(user);
 	}
 	
-	public Users update(Users user) {
-		return repository.save(user);
-	}
 }

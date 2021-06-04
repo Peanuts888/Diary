@@ -50,7 +50,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		
 		// ユーザー名に紐づく情報を取得
-				Users loginUser = repository.getOne(username);
+				Users loginUser = repository.findByUsername(username);
 
 				if (loginUser == null) {
 					// ユーザー情報が空の場合、UsernameNotFoundExceptionをthrowする

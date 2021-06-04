@@ -8,20 +8,20 @@
 		<div th:object="${user}">
 			<!-- プロフィール画像 -->
 			<div>
-				<img th:src="*{icon}">
+				<img alt="プロフィール画像" th:src="*{icon}">
 			</div>
 			<!-- アカウント名 -->
 			<div th:text="*{username}"></div>
 			<!-- フォロー/プロフィール編集ボタン -->
 			<div>
-		</div>
-		<div>
+			</div>
+			<div>
 			<a th:href="@{/user_management/edit}">
 				<button>
-				プロフィール編集
+					プロフィール編集
 				</button>
 			</a>
-		</div>
+			</div>
 		</div>
 		<!-- 検索フォーム -->
 		<div>
