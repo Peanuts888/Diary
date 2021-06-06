@@ -9,35 +9,105 @@
 			$('.title').append(results.title);
 			$('.content').append(results.content);
 		});
+
 	</script>
+	
 </head>
 <body>
+	<div class="cover"></div>
+	<div class="modal">
+		<form class="submit-form">
+			<div>
+				<input id="title" class="width" type="text" name="title" placeholder="タイトル">
+			</div>
+			<div>
+				<textarea id="content" class="width height" name="content" placeholder="内容"></textarea>
+			</div>
+			<input id="submit" type="button" value="投稿">
+		</form>
+	</div>
 	<div class="container">
 		<div class="row justify-content-center">
 			<header>
-				<div style="width:100%;">
+				<div>
 					<img alt="ヘッダー画像" th:src="@{user.headerImage}">
 				</div>
 			</header>
 		
-		<div class="container">
-			<div>
-				<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
-			</div>
-			<div>
-				<!-- プロフィール -->
-				<div th:object="${user}">
-					<div th:text="*{profile}"></div>
-					<div th:text="*{link}"></div>
-				</div>
-				<!-- 記事 -->
+			<div class="container">
 				<div>
-					<div class="title"></div>
-					<div class="content"></div>
+					<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 				</div>
-			</div>
+				<div>
+					<!-- プロフィール -->
+					<div th:object="${user}">
+						<div th:text="*{profile}"></div>
+						<div th:text="*{link}"></div>
+					</div>
+					<!-- 記事 -->
+					<div id="articles">
+						<div class="title"></div>
+						<div class="content"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
+	<button class="edit">記事作成</button>
+
+	<script type="text/javascript">
+		$(function() {
+			$('.edit').click(function() {
+				$('.cover, .modal').fadeTo(200, 1);
+			});
+			
+			$('.cover').click(function() {
+				$('.cover, .modal').fadeTo(200, 0).fadeOut(1000);
+			});
+		});
+		
+		$(function() {
+			  // ［検索］ボタンクリックで検索開始
+			$('#submit').click(function() {
+				
+				// .phpファイルへのアクセス
+				$.ajax('http://localhost:8080/article',
+					{
+						type: 'post',
+						data: {
+							title: $('#title').val(),
+							content: $('#content').val()
+						}, // 送信する情報
+						dataType: 'json'
+					}
+				)
+					// 検索成功時にはページに結果を反映
+				.done(function(data) {
+					// 記事リストをクリア
+					$('#articles').empty();
+					// <Question>要素（個々の質問情報）を順番に処理
+					$('#articles').each(function() {
+						// <Url>（詳細ページ）、<Content>（質問本文）を基にリンクリストを生成
+						$('#articles').append(
+							$('<li></li>').append(
+								$('<div></div>').attr(
+									$('class', 'title')
+								)
+								.text($('title', this).text()),
+								$('<div></div>').attr(
+									$('class', 'content')
+								)
+								.text($('content' ,this).text())
+							)
+						);
+					});
+				})
+				// 検索失敗時には、その旨をダイアログ表示
+				.fail(function() {
+					window.alert('正しい結果を得られませんでした。');
+				});
+			});
+		});
+	</script>
 </body>
 </html>

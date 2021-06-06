@@ -35,8 +35,8 @@ public class Articles {
 //	
 //	@Column(name = "updated_date", nullable = false)
 //    private Timestamp updatedDate;
-//	
-//	@JoinColumn(name = "user_id", nullable = false)
-//    private Users user;
+	
+//	@JoinColumn(name = "users_id", nullable = false)
+//    private Users usersId;
 	
 }

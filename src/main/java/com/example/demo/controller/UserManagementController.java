@@ -40,14 +40,14 @@ public class UserManagementController {
             return "/blogs/user_management";
         }
 		
-		Users user = userService.findOne(loginUser.getName());
+		Users dbUser = userService.findOne(loginUser.getName());
 		
-//		user = userUpdateForm.toEntity();
-		user.setDisplayName(userUpdateForm.getDisplayName());
-		user.setProfile(userUpdateForm.getProfile());
-		user.setLink(userUpdateForm.getLink());
-		user.setIcon(userUpdateForm.getIcon());
-		user.setHeaderImage(userUpdateForm.getHeaderImage());
+		Users user = userUpdateForm.toEntity();
+		user.setId(dbUser.getId());
+		user.setUsername(dbUser.getUsername());
+		user.setCreatedDate(dbUser.getCreatedDate());
+		user.setRole(dbUser.getRole());
+		user.setEnabled(dbUser.isEnabled());
 		
 		userService.save(user);
 		
