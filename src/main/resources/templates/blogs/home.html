@@ -4,12 +4,14 @@
 	<meta charset="UTF-8">
 	<th:block th:insert="fragments/base :: header"></th:block>
 	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js}"></script>
+	<!-- <script th:src="@{/js/script.js}" defer></script> -->
 	<script>
+	$(function(){
 		$.getJSON("http://localhost:8080/article/1", function(results) {
 			$('.title').append(results.title);
 			$('.content').append(results.content);
 		});
-
+	});
 	</script>
 	
 </head>
@@ -67,27 +69,23 @@
 		});
 		
 		$(function() {
-			  // ［検索］ボタンクリックで検索開始
 			$('#submit').click(function() {
 				
-				// .phpファイルへのアクセス
+				let data = {
+						title: $('#title').val(),
+						content: $('#content').val()
+				}
+				
 				$.ajax('http://localhost:8080/article',
 					{
 						type: 'post',
-						data: {
-							title: $('#title').val(),
-							content: $('#content').val()
-						}, // 送信する情報
-						dataType: 'json'
+						data: JSON.stringify(data),
+						dataType: 'json',
+						contentType: 'application/json'
 					}
 				)
-					// 検索成功時にはページに結果を反映
-				.done(function(data) {
-					// 記事リストをクリア
-					$('#articles').empty();
-					// <Question>要素（個々の質問情報）を順番に処理
+				/* .done(function(data) {
 					$('#articles').each(function() {
-						// <Url>（詳細ページ）、<Content>（質問本文）を基にリンクリストを生成
 						$('#articles').append(
 							$('<li></li>').append(
 								$('<div></div>').attr(
@@ -101,8 +99,7 @@
 							)
 						);
 					});
-				})
-				// 検索失敗時には、その旨をダイアログ表示
+				}) */
 				.fail(function() {
 					window.alert('正しい結果を得られませんでした。');
 				});
