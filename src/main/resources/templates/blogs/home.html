@@ -16,16 +16,28 @@
 	
 </head>
 <body>
-	<div class="cover"></div>
-	<div class="modal">
-		<form class="submit-form">
+	<div id="submit-cover" class="cover"></div>
+	<div id="submit-modal" class="modal">
+		<form class="article-form">
 			<div>
-				<input id="title" class="width" type="text" name="title" placeholder="タイトル">
+				<input id="submit-title" class="width" type="text" name="title" placeholder="タイトル">
 			</div>
 			<div>
-				<textarea id="content" class="width height" name="content" placeholder="内容"></textarea>
+				<textarea id="submit-content" class="width height" name="content" placeholder="内容"></textarea>
 			</div>
-			<input id="submit" type="button" value="投稿">
+			<input id="submit-button" type="button" value="投稿">
+		</form>
+	</div>
+	<div id="edit-cover" class="cover"></div>
+	<div id="edit-modal" class="modal">
+		<form class="article-form">
+			<div>
+				<input id="edit-title" class="width" type="text" name="title" placeholder="タイトル">
+			</div>
+			<div>
+				<textarea id="edit-content" class="width height" name="content" placeholder="内容"></textarea>
+			</div>
+			<input id="edit-button" type="button" value="投稿">
 		</form>
 	</div>
 	<div class="container">
@@ -50,40 +62,41 @@
 					<div id="articles">
 						<div class="title"></div>
 						<div class="content"></div>
+						<button class="edit">編集</button>
+						<button class="delete">削除</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<button class="edit">記事作成</button>
+	<button class="create">記事作成</button>
 
 	<script type="text/javascript">
 		$(function() {
-			$('.edit').click(function() {
-				$('.cover, .modal').fadeTo(200, 1);
+			$('.create').click(function() {
+				$('#submit-cover, #submit-modal').fadeTo(200, 1);
 			});
 			
-			$('.cover').click(function() {
-				$('.cover, .modal').fadeTo(200, 0).fadeOut(1000);
+			$('#submit-cover').click(function() {
+				$('#submit-cover, #submit-modal').fadeTo(200, 0).fadeOut(1000);
 			});
 		});
 		
 		$(function() {
-			$('#submit').click(function() {
+			$('#submit-button').click(function() {
 				
 				let data = {
-						title: $('#title').val(),
-						content: $('#content').val()
+						title: $('#submit-title').val(),
+						content: $('#submit-content').val()
 				}
 				
-				$.ajax('http://localhost:8080/article',
-					{
-						type: 'post',
-						data: JSON.stringify(data),
-						dataType: 'json',
-						contentType: 'application/json'
-					}
-				)
+				$.ajax({
+					url:'http://localhost:8080/article',
+					type: 'POST',
+					data: JSON.stringify(data),
+					dataType: 'json',
+					contentType: 'application/json'
+				})
 				/* .done(function(data) {
 					$('#articles').each(function() {
 						$('#articles').append(
@@ -103,6 +116,47 @@
 				.fail(function() {
 					window.alert('正しい結果を得られませんでした。');
 				});
+			});
+		});
+		
+		$(function() {
+			$('.edit').click(function() {
+				$('#edit-cover, #edit-modal').fadeTo(200, 1);
+				$('#edit-title').attr('value', $('.title').text());
+				$('#edit-content').text($('.content').text());
+			});
+			
+			$('#edit-cover').click(function() {
+				$('#edit-cover, #edit-modal').fadeTo(200, 0).fadeOut(1000);
+			});
+		});
+			
+		$(function() {
+			$('#edit-button').click(function() {
+				
+				let data = {
+					title: $('#edit-title').val(),
+					content: $('#edit-content').val()
+				}
+				
+				$.ajax({
+					url:'http://localhost:8080/article/1',
+					type: 'PUT',
+					data: JSON.stringify(data),
+					dataType: 'json',
+					contentType: 'application/json'
+				});
+			})
+		});
+		
+		$(function() {
+			$('.delete').click(function() {
+				if(confirm('削除しますか？')) {
+					$.ajax({
+						url: 'http://localhost:8080/article/1',
+						type: 'DELETE'
+					});
+				}
 			});
 		});
 	</script>
