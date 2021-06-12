@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +49,8 @@ public class HomeController {
 	@GetMapping("/past_articles")
 	public String pastArticles(Authentication loginUser, Model model) {
 		Users user = userService.findOne(loginUser.getName());
-		List<Articles> articles = articleService.findAll();
+		Sort sort = Sort.by("id").descending();
+		List<Articles> articles = articleService.findAll(sort);
 		model.addAttribute("user", user);
 		model.addAttribute("articles", articles);
 		

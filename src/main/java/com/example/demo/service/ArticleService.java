@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
+
 import com.example.demo.model.Articles;
 
 
@@ -18,6 +20,8 @@ public interface ArticleService {
 	 */
 	public List<Articles> findAll();
 
+	public List<Articles> findAll(Sort sort);
+	
 	/**
 	 * ユーザー名に紐付くUser(Entity)クラスのデータを1件取得する.
 	 *
@@ -25,4 +29,5 @@ public interface ArticleService {
 	 * @return 該当した1件のデータ
 	 */
 	public Articles findOne(Integer articleId);
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,11 @@ public class ArticleServiceImpl implements ArticleService {
 		return repository.findAll();
 	}
 
+	@Override
+	public List<Articles> findAll(Sort sort) {
+		return repository.findAll(sort);
+	}
+		
 	/**
 	 * ユーザー名に紐付くArticle(Entity)クラスのデータを1件取得する.
 	 *
@@ -50,5 +56,6 @@ public class ArticleServiceImpl implements ArticleService {
 	public Articles findOne(Integer articleId) {
 		return repository.getOne(articleId);
 	}
+
 
 }
