@@ -7,7 +7,9 @@ import com.example.demo.model.Users;
 
 public interface UserService {
 	
-	public Users getById(Integer id);
+//	public Users getById(Integer id);
+	
+	public List<Users> searchUsers(String param);
 
 	/**
 	 * User(Entity)クラスのデータを全件取得する.

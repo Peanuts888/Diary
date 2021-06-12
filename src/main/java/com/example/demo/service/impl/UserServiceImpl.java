@@ -30,8 +30,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	public Users getById(Integer id) {
-		return repository.getById(id);
+//	public Users getById(Integer id) {
+//		return repository.getById(id);
+//	}
+	
+	public List<Users> searchUsers(String param) {
+		return repository.searchUsers(param);
 	}
 
 	/**

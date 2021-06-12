@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<th:block th:insert="fragments/base :: header"></th:block>
+	<title>検索結果</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="container">
+				<div>
+					<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+				</div>
+				<button id="show-articles-btn">記事</button>
+				<button id="show-users-btn">アカウント</button>
+				<div>
+					<div id="search-articles-list">
+						<div th:each="articles:${articles}" th:object="${articles}">
+							<div class="">
+								<div th:text="*{title}"></div>
+							</div>
+						</div>
+					</div>
+					<div id="search-users-list">
+						<div th:each="users:${users}" th:object="${users}">
+							<div class="">
+								<div><img alt="プロフィール画像" th:src="*{icon}"></div>
+								<div th:text="*{displayName}"></div>
+								<div th:text="*{username}"></div>
+								<div th:text="*{profile}"></div>
+								<div th:text="*{link}"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="fragments/base :: scripts"></th:block>
+	<script type="text/javascript">
+		$(function() {
+			$('#show-articles-btn').click(function() {
+				$('#search-articles-list').css('display', 'inline');
+				$('#search-users-list').css('display', 'none');
+			});
+			
+			$('#show-users-btn').click(function() {
+				$('#search-articles-list').css('display', 'none');
+				$('#search-users-list').css('display', 'inline');
+			});
+		});
+	</script>
+</body>
+</html>

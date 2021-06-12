@@ -5,6 +5,15 @@
 	margin: 1rem;
 }
 
+#search-articles-list {
+	position: relative;
+}
+
+#search-users-list {
+	position: relative;
+	display: none;
+}
+
 .cover {
 	width: 100%;
 	height: 100%;

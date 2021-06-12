@@ -6,15 +6,8 @@
 <body>
 	<th:block th:fragment="sidebar">
 		<div th:object="${user}">
-			<!-- プロフィール画像 -->
-			<div>
-				<img alt="プロフィール画像" th:src="*{icon}">
-			</div>
-			<!-- アカウント名 -->
+			<div><img alt="プロフィール画像" th:src="*{icon}"></div>
 			<div th:text="*{displayName}"></div>
-			<!-- フォロー/プロフィール編集ボタン -->
-			<div>
-			</div>
 			<div>
 			<a th:href="@{/user_management/edit}">
 				<button>
@@ -23,11 +16,11 @@
 			</a>
 			</div>
 		</div>
-		<!-- 検索フォーム -->
 		<div>
-			<input type="text">
+		<form th:action="@{/search}" method="get">
+			<input type="search" name="param" placeholder="キーワード検索">
+		</form>
 		</div>
-		<!-- サイドメニュー -->
 		<div>
 			<ul>
 				<li>
@@ -36,7 +29,7 @@
 					</a>
 				</li>
 				<li>
-					<a th:href="@{/article}">
+					<a th:href="@{/past_articles}">
 						過去記事
 					</a>
 				</li>

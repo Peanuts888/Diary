@@ -19,12 +19,4 @@ public class LoginController {
     public String login() {
         return "/common/login";
     }
-
-    @GetMapping("/")
-    public String home(Authentication loginUser, Model model) {
-        Users user = userService.findOne(loginUser.getName());
-        model.addAttribute("user", user);
-        
-        return "/blogs/home";
-    }
 }
