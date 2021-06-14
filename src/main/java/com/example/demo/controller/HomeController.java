@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.Articles;
+import com.example.demo.model.Likes;
 import com.example.demo.model.Users;
 import com.example.demo.service.ArticleService;
+import com.example.demo.service.LikeService;
 import com.example.demo.service.UserService;
 
 @Controller
@@ -25,6 +27,11 @@ public class HomeController {
 	
 	@Autowired
 	ArticleService articleService;
+	
+	@Autowired
+	LikeService likeService;
+	
+	
 
 	@GetMapping("/")
     public String home(Authentication loginUser, Model model) {
@@ -46,7 +53,7 @@ public class HomeController {
 		return "/blogs/search";
 	}
 	
-	@GetMapping("/past_articles")
+	@GetMapping("/past")
 	public String pastArticles(Authentication loginUser, Model model) {
 		Users user = userService.findOne(loginUser.getName());
 		Sort sort = Sort.by("id").descending();
@@ -54,7 +61,7 @@ public class HomeController {
 		model.addAttribute("user", user);
 		model.addAttribute("articles", articles);
 		
-		return "/blogs/past_articles";
+		return "/blogs/past";
 	}
 	
 	@GetMapping("/follow")
@@ -68,7 +75,10 @@ public class HomeController {
 	@GetMapping("/like")
 	public String like(Authentication loginUser, Model model) {
 		Users user = userService.findOne(loginUser.getName());
+		Sort sort = Sort.by("id").descending();
+		List<Likes> likes = likeService.findAll(sort);
 		model.addAttribute("user", user);
+		model.addAttribute("likes", likes);
 		
 		return "/blogs/like";
 	}

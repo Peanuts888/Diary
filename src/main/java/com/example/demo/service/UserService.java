@@ -33,5 +33,7 @@ public interface UserService {
 	 * @return 保存したUser(Entity)クラス
 	 */
 	public Users save(Users user);
+
+	public long countByUsername(String username);
 	
 }

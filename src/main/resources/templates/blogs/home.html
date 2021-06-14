@@ -7,9 +7,15 @@
 	<!-- <script th:src="@{/js/script.js}" defer></script> -->
 	<script>
 	$(function(){
-		$.getJSON("http://localhost:8080/article/1", function(results) {
-			$('.title').append(results.title);
-			$('.content').append(results.content);
+		$.getJSON("http://localhost:8080/article", function(data) {
+			$.each(data._embedded.article, function(index, val) {
+				$('#articles').append(
+					$('<div></div>').append(
+						$('<div></div>').append('タイトル' + val.title),
+						$('<div></div>').append('内容' + val.content)
+					)
+				)
+			});
 		});
 	});
 	</script>
@@ -57,12 +63,7 @@
 						<div th:text="*{profile}"></div>
 						<div th:text="*{link}"></div>
 					</div>
-					<div id="articles">
-						<div class="title"></div>
-						<div class="content"></div>
-						<button class="edit">編集</button>
-						<button class="delete">削除</button>
-					</div>
+					<div id="articles"></div>
 				</div>
 			</div>
 		</div>

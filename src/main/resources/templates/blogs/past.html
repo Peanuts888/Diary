@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<th:block th:insert="fragments/base :: header"></th:block>
+	<title>過去記事</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="container">
+				<div>
+					<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+				</div>
+				<div>
+					<h1>過去記事</h1>
+					<div th:each="articles:${articles}" th:object="${articles}">
+						<div class="">
+							<div th:text="*{title}"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

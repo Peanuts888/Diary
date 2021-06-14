@@ -87,5 +87,10 @@ public class UserServiceImpl implements UserService {
 		// データベースにUsers(Entityクラス)を保存
 		return repository.save(user);
 	}
+
+	@Override
+	public long countByUsername(String username) {
+		return repository.countByUsername(username);
+	}
 	
 }

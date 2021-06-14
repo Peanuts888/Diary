@@ -1,11 +1,13 @@
 package com.example.demo.form;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import com.example.demo.annotation.CustomCheck;
 import com.example.demo.model.Users;
 
 import lombok.Getter;
@@ -13,14 +15,26 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RegisterForm {
+public class RegisterForm implements Serializable {
+	
+	/** シリアルバージョンUID. */
+	private static final long serialVersionUID = 1L;
+
+	/** 正規表現(半角英数字). */
+	private static final String ALPHANUMERIC_REGEXP = "[a-zA-Z0-9.]*";
+
+	/** 正規表現(半角英数字)のエラーメッセージ. */
+	private static final String ALPHANUMERIC_MESSAGE = "半角英字、数字、ピリオドを使用できます";
 
 	@NotBlank
-	@Column(name = "username", length = 60, nullable = false)
+	@Size(max = 30)
+	@Pattern(regexp = ALPHANUMERIC_REGEXP, message = ALPHANUMERIC_MESSAGE)
+	@CustomCheck(uniqueUsername = "username", message = "既に登録されています")
     private String username;
 	
 	@NotBlank
-	@Column(name = "password", length = 255, nullable = false)
+	@Size(max = 255)
+	@Pattern(regexp = ALPHANUMERIC_REGEXP, message = ALPHANUMERIC_MESSAGE)
     private String password;
 	
 	@Column(name = "display_name", length = 60, nullable = false)

@@ -11,16 +11,13 @@
 			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 		</div>
 		<!-- プロフィール -->
-		<form th:action="@{/user_management/update}" th:object="${userUpdateForm}" method="post">
+		<form th:action="@{/user_management/update}" th:object="${userUpdateForm}" method="post"
+			enctype="multipart/form-data">
 			<div class="">
-				<img alt="プロフィール画像" th:src="*{icon}">
-				<input type="file" accept=".jpg,.jpeg,.png" class=""
-				th:field="*{icon}">
+				<input type="file" accept=".jpg,.jpeg,.png" th:field="*{icon}">
 			</div>
 			<div class="">
-				<img alt="ヘッダー画像" th:src="*{headerImage}">
-				<input type="file" accept=".jpg,.jpeg,.png" class=""
-				th:field="*{headerImage}">
+				<input type="file" accept=".jpg,.jpeg,.png" th:field="*{headerImage}">
 			</div>
 			<div class="">
 				<input type="text" class=""
