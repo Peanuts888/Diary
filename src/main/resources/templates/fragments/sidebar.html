@@ -5,50 +5,57 @@
 </head>
 <body>
 	<th:block th:fragment="sidebar">
-		<div th:object="${user}">
-			<div><img alt="プロフィール画像" th:src="*{icon}"></div>
-			<div th:text="*{displayName}"></div>
-			<div>
-			<a th:href="@{/user_management/edit}">
-				<button>
-					プロフィール編集
-				</button>
-			</a>
+		<div class="col-lg-3 p-3">
+			<div class="sidebar-fixed">
+				<div class="mb-3 text-center">
+					<img th:if="${user.icon != null}" alt="プロフィール画像" th:src="@{/show/icon}" class="w-100 rounded-circle">
+					<span th:if="${user.icon == null}">
+						<i class="fas fa-user-circle fa-10x"></i>
+					</span>
+				</div>
+				<h2 class="mb-4 text-center" th:text="${user.displayName}"></h2>
+				<div class="mb-4 text-center">
+					<a th:href="@{/user_management/edit}">
+						<button class="btn btn-lg btn-primary rounded-pill">
+							プロフィール編集
+						</button>
+					</a>
+				</div>
+				<div class="mx-3 mb-4 text-center">
+					<form th:action="@{/search}" method="get" class="input-group">
+						<input type="search" name="param" placeholder="キーワード検索" class="form-control">
+						<button id="search-btn" class="input-group-text">
+							<i class="fas fa-search"></i>
+						</button>
+					</form>
+				</div>
+				<div class="pb-5">
+						<ul class="nav flex-column">
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/}">ホーム</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/past}">過去記事</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/follow}">フォロー</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/divke}">いいね</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/bookmark}">ブックマーク</a>
+							</li>
+						</ul>
+				</div>
+				<div class="mt-5 pt-5 text-center">
+					<a href="#">
+							<i class="fas fa-chevron-up"></i>
+							<br>
+							<span>ページTOPへ</span>
+					</a>
+				</div>
 			</div>
-		</div>
-		<div>
-		<form th:action="@{/search}" method="get">
-			<input type="search" name="param" placeholder="キーワード検索">
-		</form>
-		</div>
-		<div>
-			<ul>
-				<li>
-					<a th:href="@{/}">
-						ホーム
-					</a>
-				</li>
-				<li>
-					<a th:href="@{/past}">
-						過去記事
-					</a>
-				</li>
-				<li>
-					<a th:href="@{/follow}">
-						フォロー
-					</a>
-				</li>
-				<li>
-					<a th:href="@{/like}">
-						いいね
-					</a>
-				</li>
-				<li>
-					<a th:href="@{/bookmark}">
-						ブックマーク
-					</a>
-				</li>
-			</ul>
 		</div>
 	</th:block>
 </body>

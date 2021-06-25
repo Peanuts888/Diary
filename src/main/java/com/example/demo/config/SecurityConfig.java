@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Talend API Testerによるテスト時のみ有効。スクリプト完成後はコメントアウト。
         .antMatchers(HttpMethod.POST, "/article/**")
         .antMatchers(HttpMethod.PUT, "/article/**")
+        .antMatchers(HttpMethod.PATCH, "/article/**")
         .antMatchers(HttpMethod.DELETE, "/article/**")
         ;
     }

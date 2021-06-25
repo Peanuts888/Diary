@@ -2,20 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<th:block th:insert="fragments/base :: header"></th:block>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<th:block th:insert="fragments/base :: header"></th:block>
+		
 	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js}"></script>
 	<!-- <script th:src="@{/js/script.js}" defer></script> -->
 	<script>
 	$(function(){
 		$.getJSON("http://localhost:8080/article", function(data) {
-			$.each(data._embedded.article, function(index, val) {
+			let article = $(data._embedded.article);
+			let size = $(data._embedded.article).length;
+			for(let i = size-1; i >= 0; i--) {
 				$('#articles').append(
-					$('<div></div>').append(
-						$('<div></div>').append('タイトル' + val.title),
-						$('<div></div>').append('内容' + val.content)
+					$('<div class="mb-5 border rounded-top articles"></div>').append(
+						$('<div class="p-2 d-flex align-items-center border-bottom rounded-top bg-dark text-white title"></div>').append(
+							$('<div class="flex-grow-1"></div>').append(
+								$('<h4 style="margin-bottom:0px;">' + article[i].title + '</h4>')
+							),
+							$('<div class="d-flex justify-content-end dropdown"></div>').append(
+								$('<button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"></button>'),
+								$('<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"></ul>').append(
+									$('<li class="dropdown-item article-edit" data-URL="'+ article[i]._links.articles.href +'">編集</li>'),
+									$('<li class="dropdown-item article-delete" data-URL="'+ article[i]._links.articles.href +'">削除</li>')
+								)
+							)
+						),
+					$('<div class="p-3 content"></div>').append(article[i].content),
+					$('<div class="p-2"></div>').append('<i class="fas fa-heart fa-lg m-1"></i><i class="fas fa-star fa-lg m-1"></i><i class="fab fa-twitter fa-lg m-1 text-info"></i>')
 					)
 				)
-			});
+			};
 		});
 	});
 	</script>
@@ -24,55 +42,57 @@
 <body>
 	<div id="submit-cover" class="cover"></div>
 	<div id="submit-modal" class="modal">
-		<form class="article-form">
+		<form class="form-group article-form">
 			<div>
-				<input id="submit-title" class="width" type="text" name="title" placeholder="タイトル">
+				<input id="submit-title" class="form-control" type="text" name="title" placeholder="タイトル">
 			</div>
 			<div>
-				<textarea id="submit-content" class="width height" name="content" placeholder="内容"></textarea>
+				<textarea id="submit-content" class="form-control article-form-content" name="content" placeholder="内容"></textarea>
 			</div>
-			<input id="submit-btn" type="button" value="投稿">
+			<div class="d-flex justify-content-end">
+				<input id="submit-btn" type="button" class="btn btn-primary" th:name="${user.id}" value="投稿">
+			</div>
 		</form>
 	</div>
 	<div id="edit-cover" class="cover"></div>
 	<div id="edit-modal" class="modal">
-		<form class="article-form">
+		<form class="form-group article-form">
 			<div>
-				<input id="edit-title" class="width" type="text" name="title" placeholder="タイトル">
+				<input id="edit-title" class="form-control article-form-title" type="text" name="title" placeholder="タイトル">
 			</div>
 			<div>
-				<textarea id="edit-content" class="width height" name="content" placeholder="内容"></textarea>
+				<textarea id="edit-content" class="form-control article-form-content" name="content" placeholder="内容"></textarea>
 			</div>
 			<input id="edit-btn" type="button" value="投稿">
 		</form>
 	</div>
+
+	<header class="header-size bg-dark">
+		<img th:if="${user.headerImage != null}" alt="ヘッダー画像" th:src="@{/show/headerImage}">
+	</header>
+
+	
+
 	<div class="container">
-		<div class="row justify-content-center">
-			<header>
-				<div>
-					<img alt="ヘッダー画像" th:src="@{user.headerImage}">
+		<div class="row">
+			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+
+			<div class="col-lg-9 p-5 d-flex flex-column">
+				<div class="mb-5 border-bottom d-flex flex-column" th:object="${user}">
+					<div class="p-2 profile-min-height" th:text="*{profile}"></div>
+					<div class="p-2" th:text="*{link}"></div>
 				</div>
-			</header>
-		
-			<div class="container">
-				<div>
-					<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
-				</div>
-				<div>
-					<div th:object="${user}">
-						<div th:text="*{profile}"></div>
-						<div th:text="*{link}"></div>
-					</div>
-					<div id="articles"></div>
-				</div>
+				<div id="articles"></div>
 			</div>
 		</div>
 	</div>
-	<button class="create">記事作成</button>
-
+	<div class="fixed">
+		<button id="create" class="btn btn-lg btn-primary rounded-pill">記事作成</button>
+	</div>
+	
 	<script type="text/javascript">
 		$(function() {
-			$('.create').click(function() {
+			$('#create').click(function() {
 				$('#submit-cover, #submit-modal').fadeIn(200);
 			});
 			
@@ -83,10 +103,15 @@
 		
 		$(function() {
 			$('#submit-btn').click(function() {
+
+				let date = new Date();
 				
 				let data = {
 						title: $('#submit-title').val(),
-						content: $('#submit-content').val()
+						content: $('#submit-content').val(),
+						createdDate: date,
+						updatedDate: date,
+						usersId: $(this).attr('name')
 				}
 				
 				$.ajax({
@@ -96,22 +121,34 @@
 					dataType: 'json',
 					contentType: 'application/json'
 				})
-				/* .done(function(data) {
-					$('#articles').each(function() {
-						$('#articles').append(
-							$('<li></li>').append(
-								$('<div></div>').attr(
-									$('class', 'title')
+				.done(function(data) {
+					$('#submit-cover, #submit-modal').fadeOut(200);
+					$('#articles').empty();
+					$.getJSON("http://localhost:8080/article", function(data) {
+						let article = $(data._embedded.article);
+						let size = $(data._embedded.article).length;
+						for(let i = size-1; i >= 0; i--) {
+							$('#articles').append(
+								$('<div class="mb-5 border rounded-top articles"></div>').append(
+									$('<div class="p-2 d-flex align-items-center border-bottom rounded-top bg-dark text-white title"></div>').append(
+										$('<div class="flex-grow-1"></div>').append(
+											$('<h4 style="margin-bottom:0px;">' + article[i].title + '</h4>')
+										),
+										$('<div class="d-flex justify-content-end dropdown"></div>').append(
+											$('<button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"></button>'),
+											$('<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"></ul>').append(
+												$('<li class="dropdown-item article-edit" data-URL="'+ article[i]._links.articles.href +'">編集</li>'),
+												$('<li class="dropdown-item article-delete" data-URL="'+ article[i]._links.articles.href +'">削除</li>')
+											)
+										)
+									),
+									$('<div class="p-3 content"></div>').append(article[i].content),
+									$('<div class="p-2"></div>').append('<i class="fas fa-heart fa-lg m-1"></i><i class="fas fa-star fa-lg m-1"></i><i class="fab fa-twitter fa-lg m-1 text-info"></i>')
 								)
-								.text($('title', this).text()),
-								$('<div></div>').attr(
-									$('class', 'content')
-								)
-								.text($('content' ,this).text())
 							)
-						);
+						};
 					});
-				}) */
+				})
 				.fail(function() {
 					window.alert('正しい結果を得られませんでした。');
 				});
@@ -119,10 +156,15 @@
 		});
 		
 		$(function() {
-			$('.edit').click(function() {
+			$('body').on('click', '.article-edit', function() {
 				$('#edit-cover, #edit-modal').fadeTo(200, 1);
-				$('#edit-title').attr('value', $('.title').text());
-				$('#edit-content').text($('.content').text());
+				$('#edit-title').attr('value', $(this).closest('.title').find('h4').text());
+				$('#edit-content').empty();
+				$('#edit-content').val($(this).closest('.articles').find('.content').text());
+				$('#edit-btn').attr('data-URL', $(this).attr('data-URL'));
+				// $('#aaa-title').attr('value' ,$(this).closest('.title').find('h4').text());
+				// $('#aaa-content').val($(this).closest('.articles').find('.content').text());
+				// $('#aaa-btn').attr('data-URL', $(this).attr('data-URL'));
 			});
 			
 			$('#edit-cover').click(function() {
@@ -132,30 +174,92 @@
 			
 		$(function() {
 			$('#edit-btn').click(function() {
+
+				let date = new Date();
 				
 				let data = {
 					title: $('#edit-title').val(),
-					content: $('#edit-content').val()
+					content: $('#edit-content').val(),
+					updatedDate: date
 				}
 				
 				$.ajax({
-					url:'http://localhost:8080/article/1',
-					type: 'PUT',
+					url: $(this).attr('data-URL'),
+					type: 'PATCH',
 					data: JSON.stringify(data),
 					dataType: 'json',
 					contentType: 'application/json'
+				})
+				.done(function(data) {
+					$('#edit-cover, #edit-modal').fadeOut(200);
+					$('#articles').empty();
+					$.getJSON("http://localhost:8080/article", function(data) {
+						let article = $(data._embedded.article);
+						let size = $(data._embedded.article).length;
+						for(let i = size-1; i >= 0; i--) {
+							$('#articles').append(
+								$('<div class="mb-5 border rounded-top articles"></div>').append(
+									$('<div class="p-2 d-flex align-items-center border-bottom rounded-top bg-dark text-white title"></div>').append(
+										$('<div class="flex-grow-1"></div>').append(
+											$('<h4 style="margin-bottom:0px;">' + article[i].title + '</h4>')
+										),
+										$('<div class="d-flex justify-content-end dropdown"></div>').append(
+											$('<button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"></button>'),
+											$('<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"></ul>').append(
+												$('<li class="dropdown-item article-edit" data-URL="'+ article[i]._links.articles.href +'">編集</li>'),
+												$('<li class="dropdown-item article-delete" data-URL="'+ article[i]._links.articles.href +'">削除</li>')
+											)
+										)
+									),
+									$('<div class="p-3 content"></div>').append(article[i].content),
+									$('<div class="p-2"></div>').append('<i class="fas fa-heart fa-lg m-1"></i><i class="fas fa-star fa-lg m-1"></i><i class="fab fa-twitter fa-lg m-1 text-info"></i>')
+								)
+							)
+						};
+					});
+				})
+				.fail(function() {
+					window.alert('正しい結果を得られませんでした。');
 				});
-			})
+			});
 		});
 		
 		$(function() {
-			$('.delete').click(function() {
+			$('body').on('click', '.article-delete', function() {
 				if(confirm('削除しますか？')) {
 					$.ajax({
-						url: 'http://localhost:8080/article/1',
+						url: $(this).attr('data-URL'),
 						type: 'DELETE'
+					})
+					.done(function(data) {
+						$('#edit-cover, #edit-modal').fadeOut(200);
+						$('#articles').empty();
+						$.getJSON("http://localhost:8080/article", function(data) {
+							let article = $(data._embedded.article);
+							let size = $(data._embedded.article).length;
+							for(let i = size-1; i >= 0; i--) {
+								$('#articles').append(
+									$('<div class="mb-5 border rounded-top articles"></div>').append(
+										$('<div class="p-2 d-flex align-items-center border-bottom rounded-top bg-dark text-white title"></div>').append(
+											$('<div class="flex-grow-1"></div>').append(
+												$('<h4 style="margin-bottom:0px;">' + article[i].title + '</h4>')
+											),
+											$('<div class="d-flex justify-content-end dropdown"></div>').append(
+												$('<button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"></button>'),
+												$('<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"></ul>').append(
+													$('<li class="dropdown-item article-edit" data-URL="'+ article[i]._links.articles.href +'">編集</li>'),
+													$('<li class="dropdown-item article-delete" data-URL="'+ article[i]._links.articles.href +'">削除</li>')
+												)
+											)
+										),
+										$('<div class="p-3 content"></div>').append(article[i].content),
+										$('<div class="p-2"></div>').append('<i class="fas fa-heart fa-lg m-1"></i><i class="fas fa-star fa-lg m-1"></i><i class="fab fa-twitter fa-lg m-1 text-info"></i>')
+									)
+								)
+							};
+						});
 					});
-				}
+				};
 			});
 		});
 	</script>

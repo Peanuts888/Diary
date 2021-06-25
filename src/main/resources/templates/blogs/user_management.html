@@ -7,38 +7,55 @@
 </head>
 <body>
 	<div class="container">
-		<div>
+		<div class="row">
 			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+			<div class="col-lg-9 p-5">
+				<form class="form-group" th:action="@{/user_management/update}" th:object="${userUpdateForm}" method="post" enctype="multipart/form-data">
+					<div class="">
+						<input type="file" accept=".jpg,.jpeg,.png" th:field="*{icon}">
+					</div>
+					<div class="">
+						<input type="file" accept=".jpg,.jpeg,.png" th:field="*{headerImage}">
+					</div>
+					<div class="">
+						<input type="text" class=""
+						th:errorclass="is-invalid" th:field="*{displayName}" placeholder="アカウント名">
+						<div class="invalid-feedback" th:errors="*{displayName}"></div>
+					</div>
+					<div class="">
+						<input type="text" class=""
+						th:errorclass="is-invalid" th:field="*{profile}" placeholder="自己紹介文">
+						<div class="invalid-feedback" th:errors="*{profile}"></div>
+					</div>
+					<div class="">
+						<input type="text" class=""
+						th:errorclass="is-invalid" th:field="*{link}" placeholder="リンク">
+						<div class="invalid-feedback" th:errors="*{link}"></div>
+					</div>
+					
+					<button class="">
+						保存
+					</button>
+				</form>
+			</div>
 		</div>
-		<!-- プロフィール -->
-		<form th:action="@{/user_management/update}" th:object="${userUpdateForm}" method="post"
-			enctype="multipart/form-data">
-			<div class="">
-				<input type="file" accept=".jpg,.jpeg,.png" th:field="*{icon}">
-			</div>
-			<div class="">
-				<input type="file" accept=".jpg,.jpeg,.png" th:field="*{headerImage}">
-			</div>
-			<div class="">
-				<input type="text" class=""
-				th:errorclass="is-invalid" th:field="*{displayName}" placeholder="アカウント名">
-				<div class="invalid-feedback" th:errors="*{displayName}"></div>
-			</div>
-			<div class="">
-				<input type="text" class=""
-				th:errorclass="is-invalid" th:field="*{profile}" placeholder="自己紹介文">
-				<div class="invalid-feedback" th:errors="*{profile}"></div>
-			</div>
-			<div class="">
-				<input type="text" class=""
-				th:errorclass="is-invalid" th:field="*{link}" placeholder="リンク">
-				<div class="invalid-feedback" th:errors="*{link}"></div>
-			</div>
-			
-			<button class="">
-				保存
-			</button>
-		</form>
 	</div>
+	<script>
+		import Cropper from 'cropperjs';
+
+const image = document.getElementById('image');
+const cropper = new Cropper(image, {
+  aspectRatio: 16 / 9,
+  crop(event) {
+    console.log(event.detail.x);
+    console.log(event.detail.y);
+    console.log(event.detail.width);
+    console.log(event.detail.height);
+    console.log(event.detail.rotate);
+    console.log(event.detail.scaleX);
+    console.log(event.detail.scaleY);
+  },
+});
+	</script>
 </body>
 </html>

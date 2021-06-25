@@ -17,6 +17,10 @@ import com.example.demo.model.Articles;
 public interface ArticleRepository extends JpaRepository<Articles, Integer> {
 	
 	Articles getById(Integer id);
+	
+	List<Articles> findByUsersId(Integer id);
+
 	@Query("select a from Articles a where a.title like %?1% or a.content like %?1% order by a.id desc")
 	List<Articles> searchArticles(String param);
+	
 }

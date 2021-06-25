@@ -50,9 +50,9 @@ public class Users {
 	@Column(name = "link")
 	private String link;
 	
-	@Column(name = "icon")
+	@Column(name = "icon", columnDefinition = "MEDIUMBLOB")
 	private byte[] icon;
 	
-	@Column(name = "header_image")
+	@Column(name = "header_image", columnDefinition = "MEDIUMBLOB")
 	private byte[] headerImage;
 }

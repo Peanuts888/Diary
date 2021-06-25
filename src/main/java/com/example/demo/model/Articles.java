@@ -30,13 +30,13 @@ public class Articles {
 	@Column(name = "content", length = 1000, nullable = false)
 	private String content;
 	
-//	@Column(name = "created_date", nullable = false)
-//    private Timestamp createdDate;
+	@Column(name = "created_date", nullable = false)
+    private Timestamp createdDate;
 //	
-//	@Column(name = "updated_date", nullable = false)
-//    private Timestamp updatedDate;
+	@Column(name = "updated_date", nullable = false)
+    private Timestamp updatedDate;
 	
-//	@JoinColumn(name = "users_id", nullable = false)
-//    private Users usersId;
+	@Column(name = "users_id", nullable = false)
+    private Integer usersId;
 	
 }
