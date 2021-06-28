@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.model.Users;
+import com.example.demo.model.User;
 import com.example.demo.model.impl.UserDetailsImpl;
 import com.example.demo.repository.UserRepository;
 
@@ -50,7 +50,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		
 		// ユーザー名に紐づく情報を取得
-				Users loginUser = repository.findByUsername(username);
+				User loginUser = repository.findByUsername(username);
 
 				if (loginUser == null) {
 					// ユーザー情報が空の場合、UsernameNotFoundExceptionをthrowする

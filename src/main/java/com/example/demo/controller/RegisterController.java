@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.form.RegisterForm;
-import com.example.demo.model.Users;
+import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
 @Controller
@@ -36,7 +36,7 @@ public class RegisterController {
             return "/common/register";
         }
     	
-    	Users user = registerForm.toEntity();
+    	User user = registerForm.toEntity();
     	
     	Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 		user.setCreatedDate(currentTime);

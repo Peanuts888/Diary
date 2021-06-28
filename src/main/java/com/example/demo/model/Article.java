@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,18 +15,27 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="likes")
-public class Likes {
+@Table(name="article")
+public class Article {
 
 	@Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	
-	@Column(name = "article_id", nullable = false)
-	private Integer articleId;
+	@Column(name = "title", length = 50, nullable = false)
+	private String title;
+	
+	@Column(name = "content", length = 1000, nullable = false)
+	private String content;
+	
+	@Column(name = "created_date", nullable = false)
+    private Timestamp createdDate;
+	
+	@Column(name = "updated_date", nullable = false)
+    private Timestamp updatedDate;
 	
 	@Column(name = "user_id", nullable = false)
-    private Integer userId;
+    private Integer createUser;
 	
 }

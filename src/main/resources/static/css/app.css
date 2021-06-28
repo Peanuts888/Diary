@@ -71,3 +71,11 @@ textarea.article-form-content {
 .profile-min-height{
 	min-height: 5em;
 }
+
+.red {
+	color: #FF0000;
+}
+
+.gold {
+	color: #FFD700;
+}

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.form.UserUpdateForm;
-import com.example.demo.model.Users;
+import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
 @Controller
@@ -24,7 +24,7 @@ public class UserManagementController {
 	
 	@GetMapping("/edit")
 	public String edit(Authentication loginUser, Model model) {
-		Users user = userService.findOne(loginUser.getName());
+		User user = userService.findOne(loginUser.getName());
 		model.addAttribute("user", user);
 		model.addAttribute("userUpdateForm", new UserUpdateForm(user));
 		
@@ -40,9 +40,9 @@ public class UserManagementController {
             return "/blogs/user_management";
         }
 		
-		Users dbUser = userService.findOne(loginUser.getName());
+		User dbUser = userService.findOne(loginUser.getName());
 		
-		Users user = userUpdateForm.toEntity();
+		User user = userUpdateForm.toEntity();
 		user.setId(dbUser.getId());
 		user.setUsername(dbUser.getUsername());
 		user.setCreatedDate(dbUser.getCreatedDate());

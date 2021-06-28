@@ -4,30 +4,13 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 
-import com.example.demo.model.Articles;
+import com.example.demo.model.Article;
 
 
 public interface ArticleService {
 	
-	public Articles getById(Integer articleId);
+	public List<Article> findAll(Sort sort);
 	
-	public List<Articles> searchArticles(String param);
+	public List<Article> searchArticle(String param);
 	
-	/**
-	 * User(Entity)クラスのデータを全件取得する.
-	 *
-	 * @return usersテーブルの全件データ
-	 */
-	public List<Articles> findAll();
-
-	public List<Articles> findAll(Sort sort);
-	
-	/**
-	 * ユーザー名に紐付くUser(Entity)クラスのデータを1件取得する.
-	 *
-	 * @param username ユーザー名
-	 * @return 該当した1件のデータ
-	 */
-	public Articles findOne(Integer articleId);
-
 }

@@ -1,12 +1,9 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.Likes;
+import com.example.demo.model.Like;
 import com.example.demo.repository.LikeRepository;
 import com.example.demo.service.LikeService;
 
@@ -16,35 +13,19 @@ import com.example.demo.service.LikeService;
 @Service
 public class LikeServiceImpl implements LikeService {
 
-	/**
-	 * Article(Entity)クラスのリポジトリクラス.
-	 */
 	@Autowired
 	private LikeRepository repository;
+
+	public Like save(Like like) {
+		return repository.save(like);
+	}
 	
-	/**
-	 * Article(Entity)クラスのデータを全件取得する.
-	 *
-	 * @return usersテーブルの全件データ
-	 */
-	public List<Likes> findAll() {
-		return repository.findAll();
+	public void delete(Integer id) {
+		repository.deleteById(id);
 	}
-
-	@Override
-	public List<Likes> findAll(Sort sort) {
-		return repository.findAll(sort);
+	
+	public long likeState(int articleId, int userId) {
+		return repository.countByArticleIdAndUserId(articleId, userId);
 	}
-		
-	/**
-	 * ユーザー名に紐付くArticle(Entity)クラスのデータを1件取得する.
-	 *
-	 * @param username ユーザー名
-	 * @return 該当した1件のデータ
-	 */
-	public Likes findOne(Integer articleId) {
-		return repository.getOne(articleId);
-	}
-
 
 }

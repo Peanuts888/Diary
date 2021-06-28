@@ -9,17 +9,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.model.Users;
+import com.example.demo.model.User;
 
 @Repository
 @Transactional
-public interface UserRepository extends JpaRepository<Users, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 	
-	Users getById(Integer id);
-	Users findByUsername(String username);
+	User getById(Integer id);
+	User findByUsername(String username);
 	
-	@Query("select u from Users u where u.username like %?1% or u.displayName like %?1% or u.profile like %?1%")
-	List<Users> searchUsers(String param);
+	@Query("select u from User u where u.username like %?1% or u.displayName like %?1% or u.profile like %?1%")
+	List<User> searchUser(String param);
 	
 	/**
 	 * ユーザー名に紐付くUser(Entity)クラスの件数を取得.
@@ -27,7 +27,7 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
 	 * @param username ユーザー名
 	 * @return 件数
 	 */
-	@Query("select count(e) from Users e WHERE e.username = :username")
+	@Query("select count(e) from User e WHERE e.username = :username")
 	long countByUsername(@Param("username") String username);
 	
 }

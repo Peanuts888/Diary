@@ -2,21 +2,21 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.model.Users;
+import com.example.demo.model.User;
 
 
 public interface UserService {
 	
-//	public Users getById(Integer id);
+//	public User getById(Integer id);
 	
-	public List<Users> searchUsers(String param);
+	public List<User> searchUser(String param);
 
 	/**
 	 * User(Entity)クラスのデータを全件取得する.
 	 *
-	 * @return usersテーブルの全件データ
+	 * @return userテーブルの全件データ
 	 */
-	public List<Users> findAll();
+	public List<User> findAll();
 
 	/**
 	 * ユーザー名に紐付くUser(Entity)クラスのデータを1件取得する.
@@ -24,7 +24,7 @@ public interface UserService {
 	 * @param username ユーザー名
 	 * @return 該当した1件のデータ
 	 */
-	public Users findOne(String username);
+	public User findOne(String username);
 
 	/**
 	 * User(Entity)クラスのデータを保存する.
@@ -32,7 +32,7 @@ public interface UserService {
 	 * @param user User(Entity)クラス
 	 * @return 保存したUser(Entity)クラス
 	 */
-	public Users save(Users user);
+	public User save(User user);
 
 	public long countByUsername(String username);
 	

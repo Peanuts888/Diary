@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.model.Users;
+import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
@@ -30,12 +30,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-//	public Users getById(Integer id) {
+//	public User getById(Integer id) {
 //		return repository.getById(id);
 //	}
 	
-	public List<Users> searchUsers(String param) {
-		return repository.searchUsers(param);
+	public List<User> searchUser(String param) {
+		return repository.searchUser(param);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	 *
 	 * @return usersテーブルの全件データ
 	 */
-	public List<Users> findAll() {
+	public List<User> findAll() {
 		return repository.findAll();
 	}
 
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	 * @param username ユーザー名
 	 * @return 該当した1件のデータ
 	 */
-	public Users findOne(String username) {
+	public User findOne(String username) {
 		return repository.findByUsername(username);
 	}
 
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 	 * @return 保存したUser(Entityクラス)
 	 */
 	@Transactional
-	public Users save(Users user) {
+	public User save(User user) {
 
 		// パスワード
 		String password = user.getPassword();
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 			// 空の場合
 
 			// DBからパスワードを取得し、User(Entity)クラスのパスワードに設定
-			Users dbData = this.findOne(user.getUsername());
+			User dbData = this.findOne(user.getUsername());
 			user.setPassword(dbData.getPassword());
 
 		} else {
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(passwordEncoder.encode(password));
 		}
 
-		// データベースにUsers(Entityクラス)を保存
+		// データベースにUser(Entityクラス)を保存
 		return repository.save(user);
 	}
 

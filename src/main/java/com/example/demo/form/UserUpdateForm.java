@@ -2,11 +2,8 @@ package com.example.demo.form;
 
 import java.io.IOException;
 import java.io.Serializable;
-
 import org.springframework.web.multipart.MultipartFile;
-
-import com.example.demo.annotation.FileRequired;
-import com.example.demo.model.Users;
+import com.example.demo.model.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,20 +39,20 @@ public class UserUpdateForm implements Serializable {
 	 * 
 	 * @param user User(Entityクラス)
 	 */
-	public UserUpdateForm(Users user) {
+	public UserUpdateForm(User user) {
 		this.setDisplayName(user.getDisplayName());
 		this.setProfile(user.getProfile());
 		this.setLink(user.getLink());
 	}
 	
 	/**
-	 * Formの設定内容をUsers Entityクラスに変換する.
+	 * Formの設定内容をUser Entityクラスに変換する.
 	 *
 	 * @return ユーザー情報(Entityクラス)
 	 */
-	public Users toEntity() {
+	public User toEntity() {
 
-		Users user = new Users();
+		User user = new User();
 		user.setDisplayName(this.getDisplayName());
 		user.setProfile(this.getProfile());
 		user.setLink(this.getLink());

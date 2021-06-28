@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.example.demo.annotation.CustomCheck;
-import com.example.demo.model.Users;
+import com.example.demo.model.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -41,13 +41,13 @@ public class RegisterForm implements Serializable {
 	private String displayName;
 	
 	/**
-	 * Formの設定内容をUsers Entityクラスに変換する.
+	 * Formの設定内容をUser Entityクラスに変換する.
 	 *
 	 * @return ユーザー情報(Entityクラス)
 	 */
-	public Users toEntity() {
+	public User toEntity() {
 
-		Users user = new Users();
+		User user = new User();
 		user.setUsername(this.getUsername());
 		user.setPassword(this.getPassword());
 		user.setDisplayName(this.getUsername());

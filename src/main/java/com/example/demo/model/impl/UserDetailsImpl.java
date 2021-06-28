@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.demo.model.Users;
+import com.example.demo.model.User;
 
 /**
  * ユーザー詳細情報の拡張クラス.
@@ -17,7 +17,7 @@ public class UserDetailsImpl implements UserDetails{
 	private static final long serialVersionUID = 1L;
 
 	/** ユーザーEntityクラス. */
-	private Users user;
+	private User user;
 
 	/** ユーザーの権限情報. */
 	private Collection<GrantedAuthority> authorities;
@@ -28,7 +28,7 @@ public class UserDetailsImpl implements UserDetails{
 	 * @param user        User(Entityクラス)
 	 * @param authorities ユーザーの権限情報
 	 */
-	public UserDetailsImpl(Users user, Collection<GrantedAuthority> authorities) {
+	public UserDetailsImpl(User user, Collection<GrantedAuthority> authorities) {
 		this.user = user;
 		this.authorities = authorities;
 	}

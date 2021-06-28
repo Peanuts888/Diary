@@ -15,8 +15,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="bookmark")
-public class Bookmark {
+@Table(name="likes")
+public class Like {
 
 	@Id
     @Column(name = "id", nullable = false)
