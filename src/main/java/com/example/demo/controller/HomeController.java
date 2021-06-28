@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.model.Article;
-import com.example.demo.model.Like;
+import com.example.demo.model.Likes;
 import com.example.demo.model.User;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.LikeService;

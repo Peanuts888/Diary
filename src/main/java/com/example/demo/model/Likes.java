@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name="likes")
-public class Like {
+public class Likes {
 
 	@Id
     @Column(name = "id", nullable = false)

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.model.Like;
+import com.example.demo.model.Likes;
 import com.example.demo.service.LikeService;
 
 @RestController
@@ -18,13 +18,13 @@ public class LikeController {
 	LikeService service;
 	
 	@GetMapping("/like_state")
-	public long likeState(@RequestParam int articleId, int userId) {
+	public long likeState(@RequestParam long articleId, long userId) {
 		return service.likeState(articleId, userId);
 	}
 	
 	@PostMapping("/like_on")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void likeOn(Like like) {
+	public void likeOn(Likes like) {
 		service.save(like);
 	}
 
