@@ -6,7 +6,7 @@
 	<th:block th:insert="fragments/base :: header"></th:block>
 	<title>ホーム</title>
 </head>
-<body>
+<body th:data-user-id="${user.id}">
 	<div id="submit-cover" class="cover"></div>
 	<div id="submit-modal" class="modal">
 		<form class="form-group article-form">

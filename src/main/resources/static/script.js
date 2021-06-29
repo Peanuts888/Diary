@@ -45,7 +45,7 @@
       $('#edit-title').attr('value', $(this).closest('.title').find('h4').text());
       $('#edit-content').empty();
       $('#edit-content').val($(this).closest('.articles').find('.content').text());
-      $('#edit-btn').attr('data-article_id', $(this).attr('data-article_id'));
+      $('#edit-btn').attr('data-article-id', $(this).attr('data-article-id'));
     });
     
     $('#edit-cover').click(function() {
@@ -63,7 +63,7 @@
       }
       
       $.ajax({
-        url: '/article/' + $(this).attr('data-article_id'),
+        url: '/article/' + $(this).attr('data-article-id'),
         type: 'PATCH',
         data: JSON.stringify(data),
         dataType: 'json',
@@ -82,7 +82,7 @@
     $('body').on('click', '.article-delete', function() {
       if(confirm('削除しますか？')) {
         $.ajax({
-          url: '/article/' + $(this).attr('data-article_id'),
+          url: '/article/' + $(this).attr('data-article-id'),
           type: 'DELETE'
         })
         .done(function(data) {
@@ -93,20 +93,22 @@
       };
     });
 
-    $('body').on('click', '.fa-heart', function() {
+    $('body').on('click', '.like-on', function() {
 
       let data = {
-        userId: 1,
-        articleId: $(this).attr('data-article_id')
+        userId: $('body').attr('data-user-id'),
+        articleId: $(this).attr('data-article-id')
       };
-
+      
       $.ajax({
         url: '/like/on',
-        type: 'PUT',
+        type: 'POST',
         data: JSON.stringify(data),
         dataType: 'json',
         contentType: 'application/json'
       })
+      .done(function(data) {
+      });
     });
 
     $('body').on('click', '.fa-star', function() {
@@ -125,19 +127,25 @@
                 $('<div class="d-flex justify-content-end dropdown"></div>').append(
                   $('<button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"></button>'),
                   $('<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"></ul>').append(
-                    $('<li class="dropdown-item article-edit" data-article_id="'+ data[i].id +'">編集</li>'),
-                    $('<li class="dropdown-item article-delete" data-article_id="'+ data[i].id +'">削除</li>')
+                    $('<li class="dropdown-item article-edit" data-article-id="'+ data[i].id +'">編集</li>'),
+                    $('<li class="dropdown-item article-delete" data-article-id="'+ data[i].id +'">削除</li>')
                   )
                 )
               ),
               $('<div class="p-3 content"></div>').append(data[i].content),
-              $('<div class="p-2"></div>').append(
-                $('<i class="fas fa-heart fa-lg m-1 text-danger" data-article_id='+ data[i].id +'></i><i class="far fa-heart m-1"></i>'),
-                $('<i class="fas fa-star fa-lg m-1"></i>'),
-                $('<i class="fab fa-twitter fa-lg m-1 text-info"></i>')
+              $('<div class="p-2 d-flex align-items-center"></div>').append(
+                $('<i class="fas fa-heart fa-lg like-on ml-2 my-1 text-danger" data-article-id='+ data[i].id +'></i>'),
+                $('<span class="like-count ml-1 my-1"></span>'),
+                // $('<i class="far fa-heart like-off m-1"></i>'),
+                $('<i class="fas fa-star fa-lg ml-4 my-1"></i>'),
+                $('<span class="bookmark-count ml-1 my-1"></span>'),
+                $('<i class="fab fa-twitter fa-lg ml-4 my-1 text-info"></i>')
               )
             )
           )
+          $.getJSON("like/count/"+ data[i].id, function(data) {
+            $('.like-count').text(data);
+          });
         };
       });
     };

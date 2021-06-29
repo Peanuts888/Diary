@@ -14,7 +14,7 @@ public class LikeForm implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-    private String userId;
+    private Integer userId;
 	
     private String articleId;
     
@@ -23,7 +23,7 @@ public class LikeForm implements Serializable {
     	Likes like = new Likes();
     	Article article = new Article();
     	article.setId(Integer.parseInt(articleId));
-    	like.setUserId(Integer.parseInt(userId));
+    	like.setUserId(userId);
     	like.setArticleId(article);
     	
     	return like;

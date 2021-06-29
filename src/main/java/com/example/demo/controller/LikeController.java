@@ -11,19 +11,31 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.form.LikeForm;
+import com.example.demo.model.Article;
 import com.example.demo.model.Likes;
 import com.example.demo.service.LikeService;
+import com.example.demo.service.UserService;
 
 @RestController
-@RequestMapping("/like")
+@RequestMapping("like")
 public class LikeController {
 	
 	@Autowired
-	LikeService service;
+	LikeService likeService;
+	
+	@Autowired
+	UserService userService;
 	
 	@GetMapping("/state/{articleId}/{userId}")
 	public long likeState(@PathVariable("articleId") String articleId, @PathVariable("userId") String userId) {
-		return service.likeState(articleId, userId);
+		return likeService.likeState(articleId, userId);
+	}
+	
+	@GetMapping("/count/{articleId}")
+	public long likeCount(@PathVariable("articleId") Integer articleId) {
+		Article id = new Article();
+		id.setId(articleId);
+		return likeService.likeCount(id);
 	}
 	
 	@PostMapping("/on")
@@ -31,12 +43,13 @@ public class LikeController {
 	public Likes likeOn(@RequestBody LikeForm likeform) {
 		Likes like = new Likes();
 		like = likeform.toEntity();
-		return service.save(like);
+		
+		return likeService.save(like);
 	}
 
 	@PostMapping("/off")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void likeOff(Integer id) {
-		service.delete(id);
+		likeService.delete(id);
 	}
 }
