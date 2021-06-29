@@ -19,10 +19,16 @@ public class ArticleServiceImpl implements ArticleService {
 	private ArticleRepository repository;
 	
 	@Override
+	public List<Article> findAll() {
+		return repository.findAll();
+	}
+	
+	@Override
 	public List<Article> findAll(Sort sort) {
 		return repository.findAll(sort);
 	}
 	
+	@Override
 	public List<Article> searchArticle(String param) {
 		return repository.searchArticle(param);
 	}

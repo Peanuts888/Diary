@@ -13,9 +13,9 @@ import com.example.demo.model.Likes;
 @Transactional
 public interface LikeRepository extends JpaRepository<Likes, Integer> {
 	
-	@Query("select count(l) from Likes l where l.article_id = :articleId and l.user_id =:userId")
-	long countByArticleIdAndUserId(@Param("articleId") long articleId,
-								   @Param("userId") long userId);
+	@Query("select count(l) from Likes l where l.articleId = :articleId and l.userId = :userId")
+	long countByArticleIdAndUserId(@Param("articleId") String articleId,
+								   @Param("userId") String userId);
 	
 	void deleteById(Integer id);
 }

@@ -9,6 +9,8 @@ import com.example.demo.model.Article;
 
 public interface ArticleService {
 	
+	public List<Article> findAll();
+	
 	public List<Article> findAll(Sort sort);
 	
 	public List<Article> searchArticle(String param);

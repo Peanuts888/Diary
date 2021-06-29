@@ -9,5 +9,5 @@ public interface LikeService {
 	
 	public void delete(Integer id);
 
-	public long likeState(long articleId, long userId);
+	public long likeState(String articleId, String userId);
 }

@@ -24,7 +24,7 @@ public class LikeServiceImpl implements LikeService {
 		repository.deleteById(id);
 	}
 	
-	public long likeState(long articleId, long userId) {
+	public long likeState(String articleId, String userId) {
 		return repository.countByArticleIdAndUserId(articleId, userId);
 	}
 
