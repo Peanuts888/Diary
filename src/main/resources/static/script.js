@@ -101,13 +101,14 @@
       };
       
       $.ajax({
-        url: '/like/on',
+        url: '/like/change',
         type: 'POST',
         data: JSON.stringify(data),
         dataType: 'json',
         contentType: 'application/json'
       })
       .done(function(data) {
+        $('.like-count').text(data);
       });
     });
 

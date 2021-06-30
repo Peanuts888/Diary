@@ -14,42 +14,52 @@ import com.example.demo.form.LikeForm;
 import com.example.demo.model.Article;
 import com.example.demo.model.Likes;
 import com.example.demo.service.LikeService;
-import com.example.demo.service.UserService;
 
 @RestController
 @RequestMapping("like")
 public class LikeController {
 	
 	@Autowired
-	LikeService likeService;
-	
-	@Autowired
-	UserService userService;
-	
-	@GetMapping("/state/{articleId}/{userId}")
-	public long likeState(@PathVariable("articleId") String articleId, @PathVariable("userId") String userId) {
-		return likeService.likeState(articleId, userId);
-	}
+	LikeService service;
 	
 	@GetMapping("/count/{articleId}")
-	public long likeCount(@PathVariable("articleId") Integer articleId) {
+	public long count(@PathVariable("articleId") Integer articleId) {
 		Article id = new Article();
 		id.setId(articleId);
-		return likeService.likeCount(id);
-	}
-	
-	@PostMapping("/on")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Likes likeOn(@RequestBody LikeForm likeform) {
-		Likes like = new Likes();
-		like = likeform.toEntity();
-		
-		return likeService.save(like);
+		return service.likeCount(id);
 	}
 
-	@PostMapping("/off")
-	@ResponseStatus(HttpStatus.CREATED)
-	public void likeOff(Integer id) {
-		likeService.delete(id);
+	public long count(Article articleId) {
+		return service.likeCount(articleId);
 	}
+	
+	@PostMapping("/change")
+	@ResponseStatus(HttpStatus.CREATED)
+	public long change(@RequestBody LikeForm likeform) {
+		Article articleId = new Article();
+		Integer userId = likeform.getUserId();
+		articleId.setId(Integer.parseInt(likeform.getArticleId()));
+		
+		if(state(articleId, userId) == 0) {
+			Likes like = new Likes();
+			like = likeform.toEntity();
+			
+			service.save(like);
+		} else {
+			delete(articleId, userId);
+		}
+		return count(articleId);
+	}
+
+	public long state(Article articleId, Integer userId) {
+		return service.likeState(articleId, userId);
+	}
+	
+	public void delete(Article articleId, Integer userId) {
+		Likes like = service.findOne(articleId, userId);
+		Integer likeId = like.getId();
+		
+		service.delete(likeId);
+	}
+	
 }

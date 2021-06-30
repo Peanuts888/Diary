@@ -8,9 +8,11 @@ public interface LikeService {
 	
 	public Likes save(Likes like);
 	
-	public void delete(Integer id);
+	public void delete(Integer likeId);
 
 	public long likeCount(Article articleId);
 	
-	public long likeState(String articleId, String userId);
+	public long likeState(Article articleId, Integer userId);
+	
+	public Likes findOne(Article articleId, Integer userId);
 }

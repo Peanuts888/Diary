@@ -23,8 +23,8 @@ public class LikeServiceImpl implements LikeService {
 	}
 	
 	@Override
-	public void delete(Integer id) {
-		repository.deleteById(id);
+	public void delete(Integer likeId) {
+		repository.deleteById(likeId);
 	}
 	
 	@Override
@@ -33,8 +33,13 @@ public class LikeServiceImpl implements LikeService {
 	}
 	
 	@Override
-	public long likeState(String articleId, String userId) {
+	public long likeState(Article articleId, Integer userId) {
 		return repository.countByArticleIdAndUserId(articleId, userId);
+	}
+
+	@Override
+	public Likes findOne(Article articleId, Integer userId) {
+		return repository.findByArticleIdAndUserId(articleId, userId);
 	}
 
 }
