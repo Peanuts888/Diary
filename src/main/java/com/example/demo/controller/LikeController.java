@@ -38,7 +38,7 @@ public class LikeController {
 	public long change(@RequestBody LikeForm likeform) {
 		Article articleId = new Article();
 		Integer userId = likeform.getUserId();
-		articleId.setId(Integer.parseInt(likeform.getArticleId()));
+		articleId.setId(likeform.getArticleId());
 		
 		if(state(articleId, userId) == 0) {
 			Likes like = new Likes();
@@ -61,5 +61,4 @@ public class LikeController {
 		
 		service.delete(likeId);
 	}
-	
 }

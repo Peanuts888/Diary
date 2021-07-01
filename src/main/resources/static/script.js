@@ -93,11 +93,11 @@
       };
     });
 
-    $('body').on('click', '.like-on', function() {
+    $('body').on('click', '.like-change', function() {
 
       let data = {
-        userId: $('body').attr('data-user-id'),
-        articleId: $(this).attr('data-article-id')
+        userId: $('body').data('user-id'),
+        articleId: $(this).data('article-id')
       };
       
       $.ajax({
@@ -107,8 +107,10 @@
         dataType: 'json',
         contentType: 'application/json'
       })
-      .done(function(data) {
-        $('.like-count').text(data);
+      .done(function(count) {
+        $('.like-count').filter(function(){
+          return($(this).data('article-id') === data.articleId);
+        }).text(count);
       });
     });
 
@@ -120,8 +122,8 @@
         let size = $(data).length;
         for(let i = size-1; i >= 0; i--) {
           $('#articles').append(
-            $('<div class="mb-5 border rounded-top articles"></div>').append(
-              $('<div class="p-2 d-flex align-items-center border-bottom rounded-top bg-dark text-white title"></div>').append(
+            $('<div class="mb-5 rounded-top articles"></div>').append(
+              $('<div class="py-1 px-2 d-flex align-items-center rounded-top bg-dark text-white title"></div>').append(
                 $('<div class="flex-grow-1"></div>').append(
                   $('<h4 style="margin-bottom:0px;">' + data[i].title + '</h4>')
                 ),
@@ -133,19 +135,22 @@
                   )
                 )
               ),
-              $('<div class="p-3 content"></div>').append(data[i].content),
-              $('<div class="p-2 d-flex align-items-center"></div>').append(
-                $('<i class="fas fa-heart fa-lg like-on ml-2 my-1 text-danger" data-article-id='+ data[i].id +'></i>'),
-                $('<span class="like-count ml-1 my-1"></span>'),
-                // $('<i class="far fa-heart like-off m-1"></i>'),
-                $('<i class="fas fa-star fa-lg ml-4 my-1"></i>'),
-                $('<span class="bookmark-count ml-1 my-1"></span>'),
-                $('<i class="fab fa-twitter fa-lg ml-4 my-1 text-info"></i>')
+              $('<div class="border border-secondary"</div>').append(
+                $('<div class="p-3 content"></div>').append(data[i].content),
+                $('<div class="p-2 d-flex align-items-center"></div>').append(
+                  $('<i class="fas fa-heart fa-lg like-change ml-2 my-1 text-danger" data-article-id='+ data[i].id +'></i>'),
+                  $('<span class="like-count ml-1 my-1" data-article-id='+ data[i].id +'></span>'),
+                  $('<i class="fas fa-star fa-lg ml-4 my-1 text-warning"></i>'),
+                  $('<span class="bookmark-count ml-1 my-1"></span>'),
+                  $('<i class="fab fa-twitter fa-lg ml-4 my-1 text-info"></i>')
+                )
               )
             )
           )
-          $.getJSON("like/count/"+ data[i].id, function(data) {
-            $('.like-count').text(data);
+          $.getJSON("like/count/"+ data[i].id, function(count) {
+            $('.like-count').filter(function(){
+              return($(this).data('article-id') === data[i].id);
+            }).text(count);
           });
         };
       });

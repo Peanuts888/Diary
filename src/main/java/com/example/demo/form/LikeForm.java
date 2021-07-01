@@ -16,13 +16,13 @@ public class LikeForm implements Serializable {
 
     private Integer userId;
 	
-    private String articleId;
+    private Integer articleId;
     
     public Likes toEntity() {
     	
     	Likes like = new Likes();
     	Article article = new Article();
-    	article.setId(Integer.parseInt(articleId));
+    	article.setId(articleId);
     	like.setUserId(userId);
     	like.setArticleId(article);
     	

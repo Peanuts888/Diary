@@ -34,7 +34,7 @@
 		</form>
 	</div>
 
-	<header class="header-size bg-dark">
+	<header class="header-size bg-secondary">
 		<img th:if="${user.headerImage != null}" alt="ヘッダー画像" th:src="@{/show/headerImage}">
 	</header>
 
@@ -43,11 +43,10 @@
 			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 
 			<div class="col-lg-9 p-5 d-flex flex-column">
-				<div class="mb-5 border-bottom d-flex flex-column" th:object="${user}">
+				<div class="mb-5 border-bottom border-secondary d-flex flex-column" th:object="${user}">
 					<div class="p-2 profile-min-height" th:text="*{profile}"></div>
 					<div class="p-2" th:text="*{link}"></div>
 				</div>
-				<p class="likestate"></p>
 				<div id="articles"></div>
 			</div>
 		</div>

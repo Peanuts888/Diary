@@ -3,22 +3,39 @@
 <head>
 	<meta charset="UTF-8">
 	<th:block th:insert="fragments/base :: header"></th:block>
-	<title>過去記事</title>
+	<title>いいね</title>
 </head>
 <body>
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="container">
-				<div>
-					<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
-				</div>
-				<div>
-					<h1>過去記事</h1>
-					<div th:each="articles:${articles}" th:object="${articles}">
-						<div class="">
-							<div th:text="*{title}"></div>
-						</div>
+	<div class="container mt-3">
+		<div class="row">
+			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+
+			<div class="col-lg-9 p-5 d-flex flex-column">
+				<h1 class="mb-5">いいね</h1>
+
+				<div th:each="i : ${#numbers.sequence(articles.size() - 1, 0, -1)}" th:object="${articles[i]}" class="p-2 mb-4 border border-secondary rounded">
+					<div class="position-relative">
+						<a th:href="@{/oneArticle/{id}(id=*{id})}" class="d-block position-absolute w-100 h-100"></a>
+						<h2 th:text="*{title}"></h2>
+						更新日時：<span th:text="${#dates.format(articles[i].updatedDate, 'yyyy/MM/dd')}"></span>
 					</div>
+				</div>
+				
+				<div th:fragment='paginationbar' class="d-flex justify-content-center" style="font-size: 150%;">
+					<ul th:if="0 != ${page.totalPages}">
+						<li class="d-inline mr-1">
+							<a th:if="${!page.isFirstPage()}" th:href="@{${url}(page=0)}">&lt;&lt;</a>
+						</li>
+						<li th:each='i : ${#numbers.sequence(0, page.totalPages - 1)}' th:class="(${i}==${page.number})? 'active d-inline mr-1' : 'd-inline mr-1'" >
+							<span th:if='${i}==${page.number - 1}' th:text='${i + 1}'>1</span>
+							<a th:if='${i}!=${page.number - 1}' th:href="@{${url}(page=${i})}">
+								<span th:text='${i + 1}'>1</span>
+							</a>
+						</li>
+						<li class="d-inline">
+							<a th:if="${!page.isLastPage()}" th:href="@{${url}(page=(${page.totalPages} - 1))}">&gt;&gt;</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>

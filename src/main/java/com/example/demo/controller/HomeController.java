@@ -7,11 +7,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -67,10 +71,19 @@ public class HomeController {
 	}
 	
 	@GetMapping("/like")
-	public String like(Authentication loginUser, Model model) {
+	public String like(Authentication loginUser, Model model,
+			@PageableDefault(page = 0, size = 6, sort = {
+			"updatedDate" }, direction = Sort.Direction.DESC) Pageable pageable) {
+		
 		User user = userService.findOne(loginUser.getName());
-		Sort sort = Sort.by("id").descending();
+		Integer userId = user.getId();
+		Page<Article> articlesPage = articleService.findArticleLiked(userId, pageable);
+		PageWrapper<Article> page = new PageWrapper<Article>(articlesPage, "/like");
+		
 		model.addAttribute("user", user);
+		model.addAttribute("articles", articlesPage.getContent());
+		model.addAttribute("page", page);
+		model.addAttribute("url", "/like");
 		
 		return "/blogs/like";
 	}
@@ -112,4 +125,14 @@ public class HomeController {
 			// TODO 例外処理を実装
 		}
 	}
+	
+	@GetMapping("/oneArticle/{id}")
+    public String article(Authentication loginUser, Model model, @PathVariable Integer id) {
+        User user = userService.findOne(loginUser.getName());
+        Article article = articleService.findOne(id);
+        model.addAttribute("user", user);
+        model.addAttribute("article",article);
+        
+        return "/blogs/article";
+    }
 }

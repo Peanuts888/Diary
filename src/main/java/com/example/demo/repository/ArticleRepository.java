@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -16,7 +18,12 @@ import com.example.demo.model.Article;
 @RepositoryRestResource(collectionResourceRel = "article", path = "article")
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	
-	@Query("select a from Article a where a.title like %?1% or a.content like %?1% order by a.id desc")
+	Page<Article> findAll(Pageable pageable);
+	
+	@Query("SELECT a FROM Article a INNER JOIN Likes l ON a.id = l.articleId WHERE l.userId = ?1")
+	Page<Article> findArticleLiked(Integer userId, Pageable pageable);
+	
+	@Query("SELECT a FROM Article a WHERE a.title LIKE %?1% OR a.content LIKE %?1% ORDER BY a.id DESC")
 	List<Article> searchArticle(String param);
 	
 }
