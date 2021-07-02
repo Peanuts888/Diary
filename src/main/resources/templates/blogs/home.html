@@ -48,6 +48,7 @@
 					<div class="p-2" th:text="*{link}"></div>
 				</div>
 				<div id="articles"></div>
+				<button th:if="${page.totalPages != 1}" id="more" th:data-total-pages="${page.totalPages}" data-i="1">もっと見る</button>
 			</div>
 		</div>
 	</div>

@@ -40,9 +40,14 @@ public class HomeController {
 	
 
 	@GetMapping("/")
-    public String home(Authentication loginUser, Model model) {
+    public String home(Authentication loginUser, Model model,
+			@PageableDefault(page = 0, size = 6, sort = {
+			"updatedDate" }, direction = Sort.Direction.DESC) Pageable pageable) {
         User user = userService.findOne(loginUser.getName());
+		Page<Article> articlesPage = articleService.findAll(pageable);
+		PageWrapper<Article> page = new PageWrapper<Article>(articlesPage, "");
         model.addAttribute("user", user);
+        model.addAttribute("page", page);
         
         return "/blogs/home";
     }
@@ -89,9 +94,18 @@ public class HomeController {
 	}
 	
 	@GetMapping("/bookmark")
-	public String bookmark(Authentication loginUser, Model model) {
+	public String bookmark(Authentication loginUser, Model model,
+			@PageableDefault(page = 0, size = 6, sort = {
+			"updatedDate" }, direction = Sort.Direction.DESC) Pageable pageable){
 		User user = userService.findOne(loginUser.getName());
+		Integer userId = user.getId();
+		Page<Article> articlesPage = articleService.findArticleBookmark(userId, pageable);
+		PageWrapper<Article> page = new PageWrapper<Article>(articlesPage, "/bookmark");
+		
 		model.addAttribute("user", user);
+		model.addAttribute("articles", articlesPage.getContent());
+		model.addAttribute("page", page);
+		model.addAttribute("url", "/bookmark");
 		
 		return "/blogs/bookmark";
 	}

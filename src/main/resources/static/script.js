@@ -20,7 +20,7 @@
           content: $('#submit-content').val(),
           createdDate: date,
           updatedDate: date,
-          createUser: $(this).attr('data-submitter')
+          createUser: $(this).data('submitter')
       };
       
       $.ajax({
@@ -63,7 +63,7 @@
       }
       
       $.ajax({
-        url: '/article/' + $(this).attr('data-article-id'),
+        url: '/article/' + $(this).data('article-id'),
         type: 'PATCH',
         data: JSON.stringify(data),
         dataType: 'json',
@@ -81,12 +81,16 @@
   
     $('body').on('click', '.article-delete', function() {
       if(confirm('削除しますか？')) {
+        let id = $(this).data('article-id');
+
         $.ajax({
-          url: '/article/' + $(this).attr('data-article-id'),
-          type: 'DELETE'
+          url: 'article/delete',
+          type: 'POST',
+          data: JSON.stringify(id),
+          dataType: 'json',
+          contentType: 'application/json'
         })
-        .done(function(data) {
-          $('#edit-cover, #edit-modal').fadeOut(200);
+        .done(function() {
           $('#articles').empty();
           getArticle();
         });
@@ -114,13 +118,41 @@
       });
     });
 
-    $('body').on('click', '.fa-star', function() {
+    $('body').on('click', '.bookmark-change', function() {
+      let data = {
+        userId: $('body').data('user-id'),
+        articleId: $(this).data('article-id')
+      };
+      
+      $.ajax({
+        url: '/bookmark/change',
+        type: 'POST',
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json'
+      })
+      .done(function(count) {
+        $('.bookmark-count').filter(function(){
+          return($(this).data('article-id') === data.articleId);
+        }).text(count);
+      });
     });
 
-    function getArticle(){
-      $.getJSON("get/articles", function(data) {
+    $('body').on('click', '#more', function() {
+      let i = $(this).data('i');
+      let totalPages = $(this).data('total-pages');
+      getArticle(i);
+      i++;
+      if(totalPages == i) {
+        $(this).fadeOut();
+      };
+      $(this).data('i', i);
+    });
+
+    function getArticle(i){
+      $.getJSON("get/articles?page=" + i, function(data) {
         let size = $(data).length;
-        for(let i = size-1; i >= 0; i--) {
+        for(let i = 0; i <= size-1; i++) {
           $('#articles').append(
             $('<div class="mb-5 rounded-top articles"></div>').append(
               $('<div class="py-1 px-2 d-flex align-items-center rounded-top bg-dark text-white title"></div>').append(
@@ -140,8 +172,8 @@
                 $('<div class="p-2 d-flex align-items-center"></div>').append(
                   $('<i class="fas fa-heart fa-lg like-change ml-2 my-1 text-danger" data-article-id='+ data[i].id +'></i>'),
                   $('<span class="like-count ml-1 my-1" data-article-id='+ data[i].id +'></span>'),
-                  $('<i class="fas fa-star fa-lg ml-4 my-1 text-warning"></i>'),
-                  $('<span class="bookmark-count ml-1 my-1"></span>'),
+                  $('<i class="fas fa-star fa-lg ml-4 my-1 text-warning bookmark-change" data-article-id='+ data[i].id +'></i>'),
+                  $('<span class="bookmark-count ml-1 my-1" data-article-id='+ data[i].id +'></span>'),
                   $('<i class="fab fa-twitter fa-lg ml-4 my-1 text-info"></i>')
                 )
               )
@@ -152,7 +184,12 @@
               return($(this).data('article-id') === data[i].id);
             }).text(count);
           });
-        };
+          $.getJSON("bookmark/count/"+ data[i].id, function(count) {
+            $('.bookmark-count').filter(function(){
+              return($(this).data('article-id') === data[i].id);
+            }).text(count);
+          });
+        }
       });
     };
   });

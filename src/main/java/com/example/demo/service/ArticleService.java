@@ -22,4 +22,8 @@ public interface ArticleService {
 	public Page<Article> findAll(Pageable pageable);
 	
 	public Page<Article> findArticleLiked(Integer userId, Pageable pageable);
+
+	public Page<Article> findArticleBookmark(Integer userId, Pageable pageable);
+	
+	public void delete(Integer id);
 }

@@ -50,4 +50,13 @@ public class ArticleServiceImpl implements ArticleService {
 		return repository.searchArticle(param);
 	}
 
+	@Override
+	public Page<Article> findArticleBookmark(Integer userId, Pageable pageable) {
+		return repository.findArticleBookmark(userId, pageable);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		repository.deleteById(id);
+	}
 }

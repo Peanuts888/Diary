@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<th:block th:insert="fragments/base :: header"></th:block>
-	<title>いいね</title>
+	<title>ブックマーク</title>
 </head>
 <body>
 	<div class="container mt-3">
@@ -11,7 +11,7 @@
 			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 
 			<div class="col-lg-9 p-5 d-flex flex-column">
-				<h1 class="mb-5">いいね</h1>
+				<h1 class="mb-5">ブックマーク</h1>
 
 				<div th:each="i : ${#numbers.sequence(0, articles.size() - 1, +1)}" th:object="${articles[i]}" class="p-2 mb-4 border border-secondary rounded">
 					<div class="position-relative">
@@ -27,9 +27,9 @@
 							<a th:if="${!page.isFirstPage()}" th:href="@{${url}(page=0)}">&lt;&lt;</a>
 						</li>
 						<li th:each='i : ${#numbers.sequence(0, page.totalPages - 1)}' th:class="(${i}==${page.number})? 'active d-inline mr-1' : 'd-inline mr-1'" >
-							<span th:if='${i}==${page.number - 1}' th:text='${i + 1}'></span>
+							<span th:if='${i}==${page.number - 1}' th:text='${i + 1}'>1</span>
 							<a th:if='${i}!=${page.number - 1}' th:href="@{${url}(page=${i})}">
-								<span th:text='${i + 1}'></span>
+								<span th:text='${i + 1}'>1</span>
 							</a>
 						</li>
 						<li class="d-inline">

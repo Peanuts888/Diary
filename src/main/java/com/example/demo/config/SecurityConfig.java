@@ -32,10 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/js/**", "/css/**", "/webjars/**", "/resources/**")
         
         .antMatchers(HttpMethod.POST, "/article/**")
-        .antMatchers(HttpMethod.POST, "/like/**")
         .antMatchers(HttpMethod.PUT, "/article/**")
         .antMatchers(HttpMethod.PATCH, "/article/**")
         .antMatchers(HttpMethod.DELETE, "/article/**")
+        .antMatchers(HttpMethod.POST, "/like/**")
+        .antMatchers(HttpMethod.POST, "/bookmark/**")
         ;
     }
 

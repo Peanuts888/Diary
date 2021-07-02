@@ -4,22 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Article;
-import com.example.demo.model.Likes;
-import com.example.demo.repository.LikeRepository;
-import com.example.demo.service.LikeService;
+import com.example.demo.model.Bookmark;
+import com.example.demo.repository.BookmarkRepository;
+import com.example.demo.service.BookmarkService;
 
 /**
- * ArticleEntityクラスを操作するServiceクラス.
+ * Bookmark（Entityクラス）を操作するServiceクラス.
  */
 @Service
-public class LikeServiceImpl implements LikeService {
+public class BookmarkServiceImpl implements BookmarkService {
 
 	@Autowired
-	private LikeRepository repository;
+	private BookmarkRepository repository;
 
 	@Override
-	public Likes save(Likes like) {
-		return repository.save(like);
+	public Bookmark save(Bookmark bookmark) {
+		return repository.save(bookmark);
 	}
 	
 	@Override
@@ -33,17 +33,17 @@ public class LikeServiceImpl implements LikeService {
 	}
 	
 	@Override
-	public long likeCount(Article articleId) {
+	public long countBookmark(Article articleId) {
 		return repository.countByArticleId(articleId);
 	}
 	
 	@Override
-	public long likeState(Article articleId, Integer userId) {
+	public long getLikeState(Article articleId, Integer userId) {
 		return repository.countByArticleIdAndUserId(articleId, userId);
 	}
 
 	@Override
-	public Likes findOne(Article articleId, Integer userId) {
+	public Bookmark findByArticleIdAndUserId(Article articleId, Integer userId) {
 		return repository.findByArticleIdAndUserId(articleId, userId);
 	}
 
