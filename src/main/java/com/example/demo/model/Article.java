@@ -36,6 +36,6 @@ public class Article {
     private Timestamp updatedDate;
 	
 	@Column(name = "user_id", nullable = false)
-    private Integer createUser;
+    private Integer userId;
 	
 }

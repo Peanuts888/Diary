@@ -2,14 +2,15 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.example.demo.model.User;
 
 
 public interface UserService {
 	
-//	public User getById(Integer id);
-	
-	public List<User> searchUser(String param);
+	public Page<User> searchUser(String param, Pageable pageable);
 
 	/**
 	 * User(Entity)クラスのデータを全件取得する.
@@ -25,6 +26,8 @@ public interface UserService {
 	 * @return 該当した1件のデータ
 	 */
 	public User findOne(String username);
+	
+	public User findOne(Integer id);
 
 	/**
 	 * User(Entity)クラスのデータを保存する.

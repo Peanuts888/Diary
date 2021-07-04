@@ -26,8 +26,8 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 	
 	@Override
-	public List<Article> findAll() {
-		return repository.findAll();
+	public Page<Article> findByUserId(Integer userId, Pageable pageable) {
+		return repository.findByUserId(userId, pageable);
 	}
 	
 	@Override
@@ -46,8 +46,8 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 	
 	@Override
-	public List<Article> searchArticle(String param) {
-		return repository.searchArticle(param);
+	public Page<Article> searchArticle(String param, Pageable pageable) {
+		return repository.searchArticle(param, pageable);
 	}
 
 	@Override

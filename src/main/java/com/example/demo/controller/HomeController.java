@@ -2,10 +2,7 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.example.demo.model.Article;
 import com.example.demo.model.User;
 import com.example.demo.service.ArticleService;
@@ -43,34 +39,77 @@ public class HomeController {
     public String home(Authentication loginUser, Model model,
 			@PageableDefault(page = 0, size = 6, sort = {
 			"updatedDate" }, direction = Sort.Direction.DESC) Pageable pageable) {
+		
         User user = userService.findOne(loginUser.getName());
-		Page<Article> articlesPage = articleService.findAll(pageable);
+        Integer userId = user.getId();
+		Page<Article> articlesPage = articleService.findByUserId(userId, pageable);
 		PageWrapper<Article> page = new PageWrapper<Article>(articlesPage, "");
+		
         model.addAttribute("user", user);
         model.addAttribute("page", page);
         
         return "/blogs/home";
     }
 	
-	@GetMapping("/search")
-	public String search(Authentication loginUser, Model model, @RequestParam String param) {
-		User user = userService.findOne(loginUser.getName());
-		List<User> users = userService.searchUser(param);
-		List<Article> articles = articleService.searchArticle(param);
-        model.addAttribute("user", user);
-        model.addAttribute("users", users);
-        model.addAttribute("articles", articles);
+	@GetMapping("/search/articles")
+	public String searchArticles(Authentication loginUser, Model model, @RequestParam String param,
+			@PageableDefault(page = 0, size = 15, sort = {
+			"updatedDate" }, direction = Sort.Direction.DESC) Pageable pageable) {
 		
-		return "/blogs/search";
+		User user = userService.findOne(loginUser.getName());
+		Page<Article> articlesPage = articleService.searchArticle(param, pageable);
+		PageWrapper<Article> page = new PageWrapper<Article>(articlesPage, "/search/articles");
+		
+        model.addAttribute("user", user);
+        model.addAttribute("articles", articlesPage.getContent());
+        model.addAttribute("page", page);
+        model.addAttribute("param", param);
+		
+		return "/blogs/search/articles";
 	}
 	
-	@GetMapping("/past")
-	public String pastArticles(Authentication loginUser, Model model) {
+	@GetMapping("/search/users")
+	public String searchUsers(Authentication loginUser, Model model, @RequestParam String param,
+			@PageableDefault(page = 0, size = 10, sort = {
+			"createdDate" }, direction = Sort.Direction.DESC) Pageable pageable) {
+		
 		User user = userService.findOne(loginUser.getName());
-		Sort sort = Sort.by("id").descending();
-		List<Article> articles = articleService.findAll(sort);
+		Page<User> articlesPage = userService.searchUser(param, pageable);
+		PageWrapper<User> page = new PageWrapper<User>(articlesPage, "/search/users");
+		
 		model.addAttribute("user", user);
-		model.addAttribute("articles", articles);
+		model.addAttribute("users", articlesPage.getContent());
+		model.addAttribute("page", page);
+		model.addAttribute("param", param);
+		
+		return "/blogs/search/users";
+	}
+//	@GetMapping("/search")
+//	public String search(Authentication loginUser, Model model, @RequestParam String param) {
+//		User user = userService.findOne(loginUser.getName());
+//		List<User> users = userService.searchUser(param);
+//		List<Article> articles = articleService.searchArticle(param);
+//		model.addAttribute("user", user);
+//		model.addAttribute("users", users);
+//		model.addAttribute("articles", articles);
+//		
+//		return "/blogs/search";
+//	}
+	
+	@GetMapping("/past")
+	public String pastArticles(Authentication loginUser, Model model,
+			@PageableDefault(page = 0, size = 6, sort = {
+			"updatedDate" }, direction = Sort.Direction.DESC) Pageable pageable) {
+		
+		User user = userService.findOne(loginUser.getName());
+		Integer userId = user.getId();
+		Page<Article> articlesPage = articleService.findByUserId(userId, pageable);
+		PageWrapper<Article> page = new PageWrapper<Article>(articlesPage, "/past");
+		
+		model.addAttribute("user", user);
+		model.addAttribute("articles", articlesPage.getContent());
+		model.addAttribute("page", page);
+		model.addAttribute("url", "/past");
 		
 		return "/blogs/past";
 	}
@@ -114,6 +153,21 @@ public class HomeController {
 	@ResponseBody
 	public void showIcon(Authentication loginUser, HttpServletResponse res) {
 		User user = userService.findOne(loginUser.getName());
+		
+		try (
+				// ResponseのOutputStreamを代入
+				OutputStream os = res.getOutputStream();) {
+			// OutputStreamにファイルデータを書き出す
+			os.write(user.getIcon());
+		} catch (IOException e) {
+			// TODO 例外処理を実装
+		}
+	}
+	
+	@GetMapping("/show/icon{id}")
+	@ResponseBody
+	public void showIcon(@PathVariable Integer id, HttpServletResponse res) {
+		User user = userService.findOne(id);
 		
 		try (
 				// ResponseのOutputStreamを代入

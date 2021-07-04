@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<th:block th:insert="fragments/base :: header"></th:block>
+	<title>検索結果</title>
+</head>
+<body>
+	<div class="container mt-3">
+		<div class="row">
+			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+
+			<div class="col-lg-9 p-5 d-flex flex-column">
+				<div class="d-flex mx-3 my-5">
+					<button id="show-articles-btn" class="flex-fill btn btn-primary mr-3">記事</button>
+					<button id="show-users-btn" class="flex-fill btn btn-primary">アカウント</button>
+				</div>
+				<div class="px-3">
+<!-- 					<div id="search-articles-list" class="border border-bottom-0 border-secondary"> -->
+<!-- 						<div th:each="articles:${articles}" th:object="${articles}" -->
+<!-- 							 class="p-3 border-bottom border-secondary"> -->
+<!-- 							<div> -->
+<!-- 								<h3 th:text="*{title}"></h3> -->
+<!-- 								<div th:text="${#strings.abbreviate(articles.content,100)}"></div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+					<div id="search-users-list" class="border border-bottom-0 border-secondary">
+						<div th:each="users:${users}" th:object="${users}"
+							class="d-flex p-2 border-bottom border-secondary">
+							<div class="mr-2" style="flex-basis: 10%;">
+								<div class="wrapper">
+									<div class="icon d-flex justify-content-center">
+										<img th:if="${users.icon != null}" alt="プロフィール画像" th:src="@{/show/icon{userId}(userId=*{id})}"
+											class="w-100 h-100 rounded-circle object-fit">
+										<span th:if="${users.icon == null}" class="w-100 text-center">
+											<i class="fas fa-user-circle fa-4x"></i>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div style="flex-basis: 90%;">
+								<div th:text="*{displayName}" style="font-size: 150%;"></div>
+								<div th:text="*{username}"></div>
+								<div th:text="${#strings.abbreviate(users.profile,75)}"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="fragments/base :: scripts"></th:block>
+	<script type="text/javascript">
+		$(function() {
+// 			$('#show-articles-btn').click(function() {
+// 				$('#search-articles-list').show();
+// 				$('#search-users-list').hide();
+// 			});
+			
+// 			$('#show-users-btn').click(function() {
+// 				$('#search-articles-list').hide();
+// 				$('#search-users-list').show();
+// 			});
+		});
+	</script>
+</body>
+</html>

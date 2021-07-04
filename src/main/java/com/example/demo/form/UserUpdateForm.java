@@ -57,8 +57,13 @@ public class UserUpdateForm implements Serializable {
 		user.setProfile(this.getProfile());
 		user.setLink(this.getLink());
 		try {
-			user.setIcon(this.getIcon().getBytes());
-			user.setHeaderImage(this.getHeaderImage().getBytes());
+			if(!this.getIcon().isEmpty()) {
+				user.setIcon(this.getIcon().getBytes());
+				user.setHeaderImage(this.getHeaderImage().getBytes());
+			} else {
+				user.setIcon(null);
+				user.setHeaderImage(null);
+			}
 		} catch (IOException e) {}
 		return user;
 	}

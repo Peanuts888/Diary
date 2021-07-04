@@ -30,7 +30,9 @@
 			<div>
 				<textarea id="edit-content" class="form-control article-form-content" name="content" placeholder="内容"></textarea>
 			</div>
-			<input id="edit-btn" type="button" value="投稿">
+			<div class="d-flex justify-content-end">
+				<input id="edit-btn" type="button" class="btn btn-primary" value="投稿">
+			</div>
 		</form>
 	</div>
 
@@ -48,7 +50,8 @@
 					<div class="p-2" th:text="*{link}"></div>
 				</div>
 				<div id="articles"></div>
-				<button th:if="${page.totalPages != 1}" id="more" th:data-total-pages="${page.totalPages}" data-i="1">もっと見る</button>
+				<button th:if="${page.totalPages > 1}" id="more" th:data-total-pages="${page.totalPages}"
+				data-i="1" class="btn btn-dark">もっと見る</button>
 			</div>
 		</div>
 	</div>
@@ -57,5 +60,6 @@
 	</div>
 	
 	<th:block th:insert="fragments/base :: scripts"></th:block>
+	<script th:src="@{/script/home-script.js}"></script>
 </body>
 </html>

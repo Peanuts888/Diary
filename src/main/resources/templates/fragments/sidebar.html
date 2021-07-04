@@ -7,11 +7,15 @@
 	<th:block th:fragment="sidebar">
 		<div class="col-lg-3 p-3">
 			<div class="sidebar-fixed">
-				<div class="mb-3 text-center">
-					<img th:if="${user.icon != null}" alt="プロフィール画像" th:src="@{/show/icon}" class="w-100 rounded-circle">
-					<span th:if="${user.icon == null}">
-						<i class="fas fa-user-circle fa-10x"></i>
-					</span>
+				<div class="wrapper">
+					<div class="mb-3 icon">
+						<img th:if="${user.icon != null}" alt="プロフィール画像" th:src="@{/show/icon}" class="w-100 h-100 rounded-circle object-fit">
+						<div th:if="${user.icon == null}" class="d-flex align-items-center h-100">
+							<span  class="w-100 text-center">
+								<i class="fas fa-user-circle fa-10x"></i>
+							</span>
+						</div>
+					</div>
 				</div>
 				<h2 class="mb-4 text-center" th:text="${user.displayName}"></h2>
 				<div class="mb-4 text-center">
@@ -22,7 +26,7 @@
 					</a>
 				</div>
 				<div class="mx-3 mb-4 text-center">
-					<form th:action="@{/search}" method="get" class="input-group">
+					<form th:action="@{/search/articles}" method="get" class="input-group">
 						<input type="search" name="param" placeholder="キーワード検索" class="form-control">
 						<button id="search-btn" class="input-group-text">
 							<i class="fas fa-search"></i>
@@ -32,16 +36,19 @@
 				<div class="pb-5">
 						<ul class="nav flex-column">
 							<li class="nav-item">
-								<a class="nav-link" th:href="@{/}">ホーム</a>
+								<a class="nav-link d-inline-block" th:href="@{/}">ホーム</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" th:href="@{/past}">過去記事</a>
+								<a class="nav-link d-inline-block" th:href="@{/past}">過去記事</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" th:href="@{/like}">いいね</a>
+								<a class="nav-link d-inline-block" th:href="@{/like}">いいね</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" th:href="@{/bookmark}">ブックマーク</a>
+								<a class="nav-link d-inline-block" th:href="@{/bookmark}">ブックマーク</a>
+							</li>
+							<li class="nav-item mt-2">
+								<a class="nav-link d-inline-block" th:href="@{/logout}">ログアウト</a>
 							</li>
 						</ul>
 				</div>

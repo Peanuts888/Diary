@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,8 +36,8 @@ public class UserServiceImpl implements UserService {
 //		return repository.getById(id);
 //	}
 	
-	public List<User> searchUser(String param) {
-		return repository.searchUser(param);
+	public Page<User> searchUser(String param, Pageable pageable) {
+		return repository.searchUser(param, pageable);
 	}
 
 	/**
@@ -55,6 +57,11 @@ public class UserServiceImpl implements UserService {
 	 */
 	public User findOne(String username) {
 		return repository.findByUsername(username);
+	}
+	
+	@Override
+	public User findOne(Integer id) {
+		return repository.getById(id);
 	}
 
 	/**

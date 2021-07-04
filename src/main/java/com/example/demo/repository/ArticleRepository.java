@@ -18,13 +18,13 @@ import com.example.demo.model.Article;
 @RepositoryRestResource(collectionResourceRel = "article", path = "article")
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	
-	Page<Article> findAll(Pageable pageable);
+	Page<Article> findByUserId(Integer userId, Pageable pageable);
 	
 	@Query("SELECT a FROM Article a INNER JOIN Likes l ON a.id = l.articleId WHERE l.userId = ?1")
 	Page<Article> findArticleLiked(Integer userId, Pageable pageable);
 	
 	@Query("SELECT a FROM Article a WHERE a.title LIKE %?1% OR a.content LIKE %?1% ORDER BY a.id DESC")
-	List<Article> searchArticle(String param);
+	Page<Article> searchArticle(String param, Pageable pageable);
 
 	@Query("SELECT a FROM Article a INNER JOIN Bookmark b ON a.id = b.articleId WHERE b.userId = ?1")
 	Page<Article> findArticleBookmark(Integer userId, Pageable pageable);

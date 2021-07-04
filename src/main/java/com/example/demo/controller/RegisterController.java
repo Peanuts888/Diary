@@ -42,8 +42,6 @@ public class RegisterController {
 		user.setCreatedDate(currentTime);
 		user.setRole("user");
 		user.setEnabled(true);
-		user.setProfile("自己紹介");
-		user.setLink("URL");
 
         userService.save(user);
 

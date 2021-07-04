@@ -13,11 +13,11 @@ public interface ArticleService {
 	
 	public Article findOne(Integer id);
 	
-	public List<Article> findAll();
+	public Page<Article> findByUserId(Integer userId, Pageable pageable);
 	
 	public List<Article> findAll(Sort sort);
 	
-	public List<Article> searchArticle(String param);
+	public Page<Article> searchArticle(String param, Pageable pageable);
 	
 	public Page<Article> findAll(Pageable pageable);
 	
