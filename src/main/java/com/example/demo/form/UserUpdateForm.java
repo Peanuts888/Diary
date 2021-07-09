@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.model.User;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,12 +19,9 @@ public class UserUpdateForm implements Serializable {
 	
     private String link;
 	
-//	@FileRequired
 	private MultipartFile icon;
 	
-//	@FileRequired
 	private MultipartFile headerImage;
-	
 	
 	/**
 	 * コンストラクタ.
@@ -57,13 +53,8 @@ public class UserUpdateForm implements Serializable {
 		user.setProfile(this.getProfile());
 		user.setLink(this.getLink());
 		try {
-			if(!this.getIcon().isEmpty()) {
-				user.setIcon(this.getIcon().getBytes());
-				user.setHeaderImage(this.getHeaderImage().getBytes());
-			} else {
-				user.setIcon(null);
-				user.setHeaderImage(null);
-			}
+			user.setIcon(this.getIcon().getBytes());
+			user.setHeaderImage(this.getHeaderImage().getBytes());
 		} catch (IOException e) {}
 		return user;
 	}

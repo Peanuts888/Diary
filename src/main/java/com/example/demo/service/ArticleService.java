@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -24,6 +25,10 @@ public interface ArticleService {
 	public Page<Article> findArticleLiked(Integer userId, Pageable pageable);
 
 	public Page<Article> findArticleBookmark(Integer userId, Pageable pageable);
+	
+	public Article save(Article article);
+	
+	public Integer update(String title, String content, Timestamp updatedDate, Integer id);
 	
 	public void delete(Integer id);
 }

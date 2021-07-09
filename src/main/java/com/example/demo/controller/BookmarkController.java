@@ -23,16 +23,10 @@ public class BookmarkController {
 	BookmarkService service;
 	
 	@GetMapping("/count/{articleId}")
-	public long count(@PathVariable("articleId") Integer articleId) {
-		Article id = new Article();
-		id.setId(articleId);
-		return service.countBookmark(id);
-	}
-
-	private long count(Article articleId) {
+	public long count(@PathVariable("articleId") Article articleId) {
 		return service.countBookmark(articleId);
 	}
-	
+
 	@PostMapping("/change")
 	@ResponseStatus(HttpStatus.CREATED)
 	public long change(@RequestBody BookmarkForm bookmarkform) {

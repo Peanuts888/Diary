@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,16 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public Page<Article> findArticleBookmark(Integer userId, Pageable pageable) {
 		return repository.findArticleBookmark(userId, pageable);
+	}
+	
+	@Override
+	public Article save(Article article) {
+		return repository.save(article);
+	}
+	
+	@Override
+	public Integer update(String title, String content, Timestamp updatedDate, Integer id) {
+		return repository.updateArticle(title, content, updatedDate, id);
 	}
 
 	@Override

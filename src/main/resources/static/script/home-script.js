@@ -1,5 +1,7 @@
   
   $(function() {
+    let otherUserId = $('body').data('other-user-id');
+    let loginUserId = $('body').data('login-user-id');
 
     getArticle(0);
 
@@ -20,17 +22,17 @@
           content: $('#submit-content').val(),
           createdDate: date,
           updatedDate: date,
-          userId: $(this).data('submitter')
+          userId: loginUserId
       };
       
       $.ajax({
-        url:'/article',
+        url:'article',
         type: 'POST',
         data: JSON.stringify(data),
         dataType: 'json',
         contentType: 'application/json'
       })
-      .done(function(data) {
+      .done(function() {
         $('#submit-cover, #submit-modal').fadeOut(200);
         $('#articles').empty();
         getArticle();
@@ -57,13 +59,14 @@
       let date = new Date();
       
       let data = {
+        id: $(this).data('article-id'),
         title: $('#edit-title').val(),
         content: $('#edit-content').val(),
         updatedDate: date
       }
       
       $.ajax({
-        url: '/article/' + $(this).data('article-id'),
+        url: 'article',
         type: 'PATCH',
         data: JSON.stringify(data),
         dataType: 'json',
@@ -84,8 +87,8 @@
         let id = $(this).data('article-id');
 
         $.ajax({
-          url: 'article/delete',
-          type: 'POST',
+          url: 'article',
+          type: 'DELETE',
           data: JSON.stringify(id),
           dataType: 'json',
           contentType: 'application/json'
@@ -100,7 +103,7 @@
     $('body').on('click', '.like-change', function() {
 
       let data = {
-        userId: $('body').data('user-id'),
+        userId: loginUserId,
         articleId: $(this).data('article-id')
       };
       
@@ -120,7 +123,7 @@
 
     $('body').on('click', '.bookmark-change', function() {
       let data = {
-        userId: $('body').data('user-id'),
+        userId: loginUserId,
         articleId: $(this).data('article-id')
       };
       
@@ -150,49 +153,69 @@
     });
 
     function getArticle(i){
-      $.getJSON("article/get" + $('body').data('user-id') + "?page="+ i, function(data) {
+      $.getJSON("article/" + otherUserId + "?page="+ i, function(data) {
         let size = $(data).length;
         for(let i = 0; i <= size-1; i++) {
+          let id = data[i].id;
+          let title = data[i].title;
+          let createrId = data[i].userId;
+          let content = data[i].content;
+          let contentSplit = content.split(/\r\n|\r|\n/);
+          let contentLength = contentSplit.length;
+          let contentHtml = '<p class="mb-0">';
+          $.each(contentSplit, function(index, val) {
+            if(index !== contentLength -1) {
+              contentHtml += val + '</br>';
+            } else {
+              contentHtml += val + '</p>';
+            }
+          });
           $('#articles').append(
             $('<div class="mb-5 rounded-top articles"></div>').append(
-              $('<div class="py-1 px-2 d-flex align-items-center rounded-top bg-dark text-white title"></div>').append(
+              $('<div class="py-2 px-2 d-flex align-items-center rounded-top bg-dark text-white title"></div>').append(
                 $('<div class="flex-grow-1"></div>').append(
-                  $('<h4 style="margin-bottom:0px;">' + data[i].title + '</h4>')
+                  $('<h4 style="margin-bottom:0px;"></h4>').append(title)
                 ),
-                $('<div class="d-flex justify-content-end dropdown"></div>').append(
-                  $('<button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"></button>'),
-                  $('<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"></ul>').append(
-                    $('<li class="dropdown-item article-edit" data-article-id="'+ data[i].id +'">編集</li>'),
-                    $('<li class="dropdown-item article-delete" data-article-id="'+ data[i].id +'">削除</li>')
+                $('<div id="dropdown-' + i + '"></div>').append(
+                  $('<div class="d-flex justify-content-end dropdown"></div>').append(
+                    $('<button class="btn dropdown-toggle text-white py-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"></button>'),
+                    $('<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"></ul>').append(
+                      $('<li class="dropdown-item article-edit" data-article-id="'+ id +'">編集</li>'),
+                      $('<li class="dropdown-item article-delete" data-article-id="'+ id +'">削除</li>')
+                    )
                   )
                 )
               ),
               $('<div class="border border-secondary"</div>').append(
-                $('<div class="p-3 content"></div>').append(data[i].content),
+                $('<div class="p-3 text-break content"></div>').append(contentHtml),
                 $('<div class="p-2 d-flex align-items-center"></div>').append(
-                  $('<i class="fas fa-heart fa-lg like-change ml-2 my-1 text-danger" data-article-id='+ data[i].id +'></i>'),
-                  $('<span class="like-count ml-1 my-1" data-article-id='+ data[i].id +'></span>'),
-                  $('<i class="fas fa-star fa-lg ml-4 my-1 text-warning bookmark-change" data-article-id='+ data[i].id +'></i>'),
-                  $('<span class="bookmark-count ml-1 my-1" data-article-id='+ data[i].id +'></span>'),
-                  $('<i class="fab fa-twitter fa-lg ml-4 my-1 text-info"></i>')
+                  $('<i class="fas fa-heart fa-lg like-change ml-2 my-1 text-danger" data-article-id='+ id +'></i>'),
+                  $('<span class="like-count ml-1 my-1" data-article-id='+ id +'></span>'),
+                  $('<i class="fas fa-star fa-lg ml-4 my-1 text-warning bookmark-change" data-article-id='+ id +'></i>'),
+                  $('<span class="bookmark-count ml-1 mr-4 my-1" data-article-id='+ id +'></span>'),
+                  $('<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button ml-1 my-1" data-url="http://localhost:8080/oneArticle' + id + '" data-text="' + title + '" data-size="large" data-show-count="false"></a>')
                 )
               )
             )
           )
-          $.getJSON("like/count/"+ data[i].id, function(count) {
+          $.getJSON("like/count/"+ id, function(count) {
             $('.like-count').filter(function(){
-              return($(this).data('article-id') === data[i].id);
+              return($(this).data('article-id') === id);
             }).text(count);
           });
-          $.getJSON("bookmark/count/"+ data[i].id, function(count) {
+          $.getJSON("bookmark/count/"+ id, function(count) {
             $('.bookmark-count').filter(function(){
-              return($(this).data('article-id') === data[i].id);
+              return($(this).data('article-id') === id);
             }).text(count);
           });
-        }
-        $.getJSON("total-pages" + $('body').data('user-id'), function(totalPages) {
+          if(loginUserId != createrId) {
+            $('#dropdown-' + i).hide();
+          };
+        };
+        $.getJSON("article/total-pages" + otherUserId, function(totalPages) {
           $('#more').data('total-pages', totalPages);
         })
+        
       });
     };
   });

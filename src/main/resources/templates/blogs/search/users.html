@@ -5,64 +5,68 @@
 	<th:block th:insert="fragments/base :: header"></th:block>
 	<title>検索結果</title>
 </head>
-<body>
+<body th:data-search-param="${searchParam}" th:data-login-user-id="${loginUser.id}">
 	<div class="container mt-3">
 		<div class="row">
 			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 
 			<div class="col-lg-9 p-5 d-flex flex-column">
 				<div class="d-flex mx-3 my-5">
-					<button id="show-articles-btn" class="flex-fill btn btn-primary mr-3">記事</button>
-					<button id="show-users-btn" class="flex-fill btn btn-primary">アカウント</button>
+					<form th:action="@{/search/articles}" method="get" class="flex-fill mr-3 action-articles-if">
+						<button type="submit" th:value="${searchParam}" name="param" class="w-100 btn btn-primary">記事</button>
+					</form>
+					<form th:action="@{/search/users}" method="get" class="flex-fill action-users-if">
+						<button th:value="${searchParam}" name="param" class="w-100 btn btn-primary">アカウント</button>
+					</form>
 				</div>
-				<div class="px-3">
-<!-- 					<div id="search-articles-list" class="border border-bottom-0 border-secondary"> -->
-<!-- 						<div th:each="articles:${articles}" th:object="${articles}" -->
-<!-- 							 class="p-3 border-bottom border-secondary"> -->
-<!-- 							<div> -->
-<!-- 								<h3 th:text="*{title}"></h3> -->
-<!-- 								<div th:text="${#strings.abbreviate(articles.content,100)}"></div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
+				<div class="px-3 mb-5">
 					<div id="search-users-list" class="border border-bottom-0 border-secondary">
-						<div th:each="users:${users}" th:object="${users}"
-							class="d-flex p-2 border-bottom border-secondary">
-							<div class="mr-2" style="flex-basis: 10%;">
-								<div class="wrapper">
-									<div class="icon d-flex justify-content-center">
-										<img th:if="${users.icon != null}" alt="プロフィール画像" th:src="@{/show/icon{userId}(userId=*{id})}"
-											class="w-100 h-100 rounded-circle object-fit">
-										<span th:if="${users.icon == null}" class="w-100 text-center">
-											<i class="fas fa-user-circle fa-4x"></i>
-										</span>
+						<div th:each="users:${users}" th:if="${users.id != loginUser.id}" th:object="${users}" class="border-bottom border-secondary">
+							<div class="position-relative">
+								<a th:href="@{/{userId}(userId=*{id})}" class="d-block position-absolute w-100 h-100"></a>
+								<div class="d-flex p-2">
+									<div class="mr-2" style="flex-basis: 10%;">
+										<div class="wrapper-1-1">
+											<div class="icon-parent d-flex justify-content-center">
+												<img th:if="${users.icon != null}" alt="プロフィール画像" th:src="@{/show/icon/{userId}(userId=*{id})}"
+													class="w-100 h-100 rounded-circle object-fit">
+												<span th:if="${users.icon == null}" class="w-100 text-center">
+													<i class="fas fa-user-circle fa-4x"></i>
+												</span>
+											</div>
+										</div>
+									</div>
+									<div style="flex-basis: 90%;">
+										<div th:text="*{displayName}" style="font-size: 150%;"></div>
+										<div th:text="*{username}"></div>
+										<div th:text="${#strings.abbreviate(users.profile,75)}"></div>
 									</div>
 								</div>
-							</div>
-							<div style="flex-basis: 90%;">
-								<div th:text="*{displayName}" style="font-size: 150%;"></div>
-								<div th:text="*{username}"></div>
-								<div th:text="${#strings.abbreviate(users.profile,75)}"></div>
 							</div>
 						</div>
 					</div>
 				</div>
+				<button th:if="${page.totalPages > 1}" id="more" th:data-total-pages="${page.totalPages}"
+					data-i="1" class="btn btn-dark">
+					もっと見る
+				</button>
 			</div>
 		</div>
 	</div>
 	<th:block th:insert="fragments/base :: scripts"></th:block>
-	<script type="text/javascript">
-		$(function() {
-// 			$('#show-articles-btn').click(function() {
-// 				$('#search-articles-list').show();
-// 				$('#search-users-list').hide();
-// 			});
-			
-// 			$('#show-users-btn').click(function() {
-// 				$('#search-articles-list').hide();
-// 				$('#search-users-list').show();
-// 			});
-		});
+	<script th:src="@{/script/search-users-script.js}"></script>
+	<script th:inline="javascript">
+	$(function() {
+		
+		let loginUserId = /*[[${loginUser.id}]]*/'';
+	  let otherUserId = /*[[${otherUser.id}]]*/'';
+	  let otherUserDisplayName = /*[[${otherUser.displayName}]]*/'';
+
+	  if(loginUserId != otherUserId) {
+	    $('.action-articles-if').attr('action', '/search/articles/' + otherUserId);
+	    $('.action-users-if').attr('action', '/search/users/' + otherUserId);
+	  };
+	});
 	</script>
 </body>
 </html>

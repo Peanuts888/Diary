@@ -7,18 +7,18 @@
 	<th:block th:fragment="sidebar">
 		<div class="col-lg-3 p-3">
 			<div class="sidebar-fixed">
-				<div class="wrapper">
-					<div class="mb-3 icon">
-						<img th:if="${user.icon != null}" alt="プロフィール画像" th:src="@{/show/icon}" class="w-100 h-100 rounded-circle object-fit">
-						<div th:if="${user.icon == null}" class="d-flex align-items-center h-100">
+				<div class="wrapper-1-1">
+					<div class="mb-3 icon-parent">
+						<img th:if="(${loginUser} == ${otherUser}) ? ${loginUser.icon != null} : ${otherUser.icon != null}" alt="プロフィール画像" th:src="@{/show/icon}" class="w-100 h-100 rounded-circle object-fit src-if">
+						<div th:if="(${loginUser} == ${otherUser}) ? ${loginUser.icon == null} : ${otherUser.icon == null}" class="d-flex align-items-center h-100">
 							<span  class="w-100 text-center">
 								<i class="fas fa-user-circle fa-10x"></i>
 							</span>
 						</div>
 					</div>
 				</div>
-				<h2 class="mb-4 text-center" th:text="${user.displayName}"></h2>
-				<div class="mb-4 text-center">
+				<h2 class="mb-4 text-center text-if" th:text="${loginUser.displayName}"></h2>
+				<div th:if="${otherUser == loginUser}" class="mb-4 text-center">
 					<a th:href="@{/user_management/edit}">
 						<button class="btn btn-lg btn-primary rounded-pill">
 							プロフィール編集
@@ -26,8 +26,8 @@
 					</a>
 				</div>
 				<div class="mx-3 mb-4 text-center">
-					<form th:action="@{/search/articles}" method="get" class="input-group">
-						<input type="search" name="param" placeholder="キーワード検索" class="form-control">
+					<form th:action="@{/search/articles}" id="search-form" method="get" class="input-group action-if">
+						<input type="search" name="param" id="search-word" placeholder="キーワード検索" class="form-control">
 						<button id="search-btn" class="input-group-text">
 							<i class="fas fa-search"></i>
 						</button>
@@ -36,18 +36,21 @@
 				<div class="pb-5">
 						<ul class="nav flex-column">
 							<li class="nav-item">
-								<a class="nav-link d-inline-block" th:href="@{/}">ホーム</a>
+								<a class="nav-link d-inline-block href-home-if" th:href="@{/}">ホーム</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link d-inline-block" th:href="@{/past}">過去記事</a>
+								<a class="nav-link d-inline-block href-past-if" th:href="@{/past}">過去記事</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link d-inline-block" th:href="@{/like}">いいね</a>
+								<a class="nav-link d-inline-block href-like-if" th:href="@{/like}">いいね</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link d-inline-block" th:href="@{/bookmark}">ブックマーク</a>
+								<a class="nav-link d-inline-block href-bookmark-if" th:href="@{/bookmark}">ブックマーク</a>
 							</li>
-							<li class="nav-item mt-2">
+							<li th:if="${otherUser != loginUser}" class="nav-item mt-3">
+								<a class="nav-link d-inline-block" th:href="@{/}">マイページ</a>
+							</li>
+							<li class="nav-item">
 								<a class="nav-link d-inline-block" th:href="@{/logout}">ログアウト</a>
 							</li>
 						</ul>
@@ -61,6 +64,31 @@
 				</div>
 			</div>
 		</div>
+		<th:block th:insert="fragments/base :: scripts"></th:block>
+		<script th:inline="javascript">
+		$(function() {
+				let loginUserId = /*[[${loginUser.id}]]*/'';
+			  let otherUserId = /*[[${otherUser.id}]]*/'';
+			  let otherUserDisplayName = /*[[${otherUser.displayName}]]*/'';
+
+			  if(loginUserId != otherUserId) {
+			    $('.src-if').attr('src', '/show/icon/' + otherUserId);
+			    $('.text-if').text(otherUserDisplayName);
+			    $('.action-if').attr('action', '/search/articles/' + otherUserId);
+			    $('.href-home-if').attr('href', '/' + otherUserId);
+			    $('.href-past-if').attr('href', '/past/' + otherUserId);
+			    $('.href-like-if').attr('href', '/like/' + otherUserId);
+			    $('.href-bookmark-if').attr('href', '/bookmark/' + otherUserId);
+			  }
+			  
+				$("#search-form").submit(function() {
+					let keyword = $('input[id=search-word]').val();
+					if(keyword.match(/^[ 　\r\n\t]*$/)){
+						return false;
+					}
+				});
+			});
+		</script>
 	</th:block>
 </body>
 </html>

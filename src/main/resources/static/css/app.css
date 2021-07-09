@@ -67,18 +67,37 @@ textarea.article-form-content {
 	object-fit: cover;
 }
 
-.wrapper {
+.wrapper-1-1 {
     position: relative;
     width: 100%;
 }
 
-.wrapper:before {
+.wrapper-1-1:before {
     content:"";
     display: block;
     padding-top: 100%;
 }
 
-.icon {
+.icon-parent {
+	position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.wrapper-5-1 {
+    position: relative;
+    width: 100%;
+}
+
+.wrapper-5-1:before {
+    content:"";
+    display: block;
+    padding-top: 20%;
+}
+
+.header-image-parent {
 	position: absolute;
     top: 0;
     left: 0;

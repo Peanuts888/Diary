@@ -7,17 +7,20 @@
 </head>
 <body>
 	<div class="container mt-3">
-		<div class="row">
+		<div class="row align-items-start">
 			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 
 			<div class="col-lg-9 p-5 d-flex flex-column">
 				<h1 class="mb-5">過去記事</h1>
 
-				<div th:each="i : ${#numbers.sequence(0, articles.size() - 1, +1)}" th:object="${articles[i]}" class="p-2 mb-4 border border-secondary rounded">
+				<div th:each="i : ${#numbers.sequence(0, articles.size() - 1, +1)}" th:object="${articles[i]}" class="mb-4 border border-secondary rounded">
 					<div class="position-relative">
-						<a th:href="@{/oneArticle/{id}(id=*{id})}" class="d-block position-absolute w-100 h-100"></a>
-						<h2 th:text="*{title}"></h2>
-						更新日時：<span th:text="${#dates.format(articles[i].updatedDate, 'yyyy/MM/dd')}"></span>
+						<a th:href="(${loginUser} == ${otherUser}) ? @{/oneArticle/{id}(id=*{id})} : @{/oneArticle/{id}/{userId}(id=*{id},userId=${otherUser.id})}"
+							class="d-block position-absolute w-100 h-100"></a>
+						<div class="p-2">
+							<h2 th:text="*{title}"></h2>
+							更新日時：<span th:text="${#dates.format(articles[i].updatedDate, 'yyyy/MM/dd')}"></span>
+						</div>
 					</div>
 				</div>
 				

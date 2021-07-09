@@ -5,22 +5,42 @@
 	<th:block th:insert="fragments/base :: header"></th:block>
 	<title th:text="${article.title}"></title>
 </head>
-<body>
-	<div class="container mt-5">
+<body th:data-login-user-id="${loginUser.id}" th:data-article-id="${article.id}">
+	<div class="container mt-3">
 		<div class="row">
 			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 
-			<div class="col-lg-9 p-5 d-flex flex-column border border-secondary" th:object="${article}">
-				<h1 class="mb-5" th:text="*{title}"></h1>
-				<div class="border-bottom border-secondary mb-3 pb-3" th:text="*{content}"></div>
-				<div class="text-right">
-					作成日時：<span th:text="${#dates.format(article.createdDate, 'yyyy/MM/dd')}"></span>
-				</div>
-				<div class="text-right">
-					更新日時：<span th:text="${#dates.format(article.updatedDate, 'yyyy/MM/dd')}"></span>
+			<div class="col-lg-9 p-5 d-flex flex-column" th:object="${article}">
+				<div class="p-5 h-100 border border-secondary">
+					<h1 class="mb-4" th:text="*{title}"></h1>
+					<div class="border-bottom border-secondary mb-3">
+						<p class="text-break">
+							<th:block th:each="content, stat : ${article.content.split('\r\n|\r|\n')}">
+				        <th:block th:text="${content}"/>
+				        <br th:if="${!stat.last}"/>
+					    </th:block>
+						</p>
+						<div class="p-2 d-flex align-items-center">
+							<i class="fas fa-heart fa-lg like-change ml-2 my-1 text-danger" th:data-article-id="*{id}"></i>
+							<span class="like-count ml-1 my-1" th:data-article-id="*{id}"></span>
+							<i class="fas fa-star fa-lg ml-4 my-1 text-warning bookmark-change" th:data-article-id="*{id}"></i>
+							<span class="bookmark-count ml-1 mr-4 my-1" th:data-article-id=*{id}></span>
+							<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button ml-1 my-1"
+								 data-size="large" data-show-count="false"></a>
+						</div>
+					</div>
+					<div class="text-right">
+						作成日時：<span th:text="${#dates.format(article.createdDate, 'yyyy/MM/dd')}"></span>
+					</div>
+					<div class="text-right">
+						更新日時：<span th:text="${#dates.format(article.updatedDate, 'yyyy/MM/dd')}"></span>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<th:block th:insert="fragments/base :: scripts"></th:block>
+	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+	<script th:src="@{/script/article-script.js}"></script>
 </body>
 </html>

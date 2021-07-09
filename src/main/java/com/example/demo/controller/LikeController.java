@@ -23,15 +23,10 @@ public class LikeController {
 	LikeService service;
 	
 	@GetMapping("/count/{articleId}")
-	public long count(@PathVariable("articleId") Integer articleId) {
-		Article id = new Article();
-		id.setId(articleId);
-		return service.likeCount(id);
-	}
-
-	public long count(Article articleId) {
+	public long count(@PathVariable("articleId") Article articleId) {
 		return service.likeCount(articleId);
 	}
+
 	
 	@PostMapping("/change")
 	@ResponseStatus(HttpStatus.CREATED)

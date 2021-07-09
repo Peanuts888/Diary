@@ -25,7 +25,9 @@ public class UserManagementController {
 	@GetMapping("/edit")
 	public String edit(Authentication loginUser, Model model) {
 		User user = userService.findOne(loginUser.getName());
-		model.addAttribute("user", user);
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("otherUser", user);
 		model.addAttribute("userUpdateForm", new UserUpdateForm(user));
 		
 		return "/blogs/user_management";
@@ -41,8 +43,14 @@ public class UserManagementController {
         }
 		
 		User dbUser = userService.findOne(loginUser.getName());
-		
 		User user = userUpdateForm.toEntity();
+		
+		if(userUpdateForm.getIcon().isEmpty()) {
+			user.setIcon(dbUser.getIcon());
+		}
+		if(userUpdateForm.getHeaderImage().isEmpty()) {
+			user.setHeaderImage(dbUser.getHeaderImage());
+		}
 		user.setId(dbUser.getId());
 		user.setUsername(dbUser.getUsername());
 		user.setCreatedDate(dbUser.getCreatedDate());

@@ -6,7 +6,7 @@
 	<th:block th:insert="fragments/base :: header"></th:block>
 	<title>ホーム</title>
 </head>
-<body th:data-user-id="${user.id}">
+<body th:data-other-user-id="${otherUser.id}" th:data-login-user-id="${loginUser.id}">
 	<div id="submit-cover" class="cover"></div>
 	<div id="submit-modal" class="modal">
 		<form class="form-group article-form">
@@ -17,7 +17,7 @@
 				<textarea id="submit-content" class="form-control article-form-content" name="content" placeholder="内容"></textarea>
 			</div>
 			<div class="d-flex justify-content-end">
-				<input id="submit-btn" type="button" class="btn btn-primary" th:data-submitter="${user.id}" value="投稿">
+				<input id="submit-btn" type="button" class="btn btn-primary" th:data-submitter="${loginUser.id}" value="投稿">
 			</div>
 		</form>
 	</div>
@@ -36,18 +36,25 @@
 		</form>
 	</div>
 
-	<header class="header-size bg-secondary">
-		<img th:if="${user.headerImage != null}" alt="ヘッダー画像" th:src="@{/show/headerImage}">
+	<header class="bg-secondary">
+		<div class="wrapper-5-1">
+			<div class="header-image-parent">
+				<img th:if="(${loginUser} == ${otherUser}) ? ${loginUser.headerImage != null} : ${otherUser.headerImage != null}"
+					alt="ヘッダー画像" class="w-100 h-100 object-fit"
+					th:src="(${loginUser} == ${otherUser}) ? @{/show/headerImage} : @{/show/headerImage/{userId}(userId=${otherUser.id})}">
+			</div>
+		</div>
 	</header>
-
+	
 	<div class="container">
 		<div class="row">
 			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 
 			<div class="col-lg-9 p-5 d-flex flex-column">
-				<div class="mb-5 border-bottom border-secondary d-flex flex-column" th:object="${user}">
-					<div class="p-2 profile-min-height" th:text="*{profile}"></div>
-					<div class="p-2" th:text="*{link}"></div>
+				<div class="mb-5 border-bottom border-secondary d-flex flex-column">
+					<p style="font-size: 200%;">プロフィール</p>
+					<div class="p-2 profile-min-height" th:text="(${loginUser} == ${otherUser}) ? ${loginUser.profile} : ${otherUser.profile}"></div>
+					<a class="p-2" th:href="*{link}" th:text="(${loginUser} == ${otherUser}) ? ${loginUser.link} : ${otherUser.link}"></a>
 				</div>
 				<div id="articles"></div>
 				<button th:if="${page.totalPages > 1}" id="more" th:data-total-pages="${page.totalPages}"
@@ -55,11 +62,14 @@
 			</div>
 		</div>
 	</div>
-	<div class="fixed">
+	<div th:if="${loginUser} == ${otherUser}" class="fixed">
 		<button id="create" class="btn btn-lg btn-primary rounded-pill">記事作成</button>
 	</div>
-	
 	<th:block th:insert="fragments/base :: scripts"></th:block>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 	<script th:src="@{/script/home-script.js}"></script>
 </body>
 </html>

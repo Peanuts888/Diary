@@ -1,21 +1,19 @@
 package com.example.demo.repository;
 
-import java.util.List;
+import java.sql.Timestamp;
 
 import javax.transaction.Transactional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
-
 import com.example.demo.model.Article;
 
 @Repository
 @Transactional
-@RepositoryRestResource(collectionResourceRel = "article", path = "article")
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	
 	Page<Article> findByUserId(Integer userId, Pageable pageable);
@@ -28,6 +26,10 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
 	@Query("SELECT a FROM Article a INNER JOIN Bookmark b ON a.id = b.articleId WHERE b.userId = ?1")
 	Page<Article> findArticleBookmark(Integer userId, Pageable pageable);
+	
+	@Modifying(clearAutomatically=true, flushAutomatically=true)
+	@Query("UPDATE Article a SET a.title = ?1, a.content = ?2, a.updatedDate = ?3 WHERE a.id = ?4")
+	Integer updateArticle(String title, String content, Timestamp updatedDate, Integer id);
 	
 	void deleteById(Integer id);
 }
