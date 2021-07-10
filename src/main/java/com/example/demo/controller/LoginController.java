@@ -14,6 +14,6 @@ public class LoginController {
 
 	@GetMapping("/login")
     public String login() {
-        return "/common/login";
+        return "common/login";
     }
 }

@@ -30,7 +30,7 @@ public class UserManagementController {
 		model.addAttribute("otherUser", user);
 		model.addAttribute("userUpdateForm", new UserUpdateForm(user));
 		
-		return "/blogs/user_management";
+		return "blogs/user_management";
 	}
 	
 	@PostMapping("/update")
@@ -39,7 +39,7 @@ public class UserManagementController {
 			BindingResult result) {
 		
 		if (result.hasErrors()) {
-            return "/blogs/user_management";
+            return "blogs/user_management";
         }
 		
 		User dbUser = userService.findOne(loginUser.getName());

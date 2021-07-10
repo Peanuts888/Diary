@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.example.demo.model.User;
 
-
 public interface UserService {
 	
 	public Page<User> searchUser(String param, Pageable pageable);

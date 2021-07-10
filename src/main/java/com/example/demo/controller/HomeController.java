@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.example.demo.model.Article;
 import com.example.demo.model.User;
 import com.example.demo.service.ArticleService;
@@ -49,7 +52,7 @@ public class HomeController {
         model.addAttribute("otherUser", user);
         model.addAttribute("page", page);
         
-        return "/blogs/home";
+        return "blogs/home";
     }
 	
 	@GetMapping("/search/articles")
@@ -67,7 +70,7 @@ public class HomeController {
         model.addAttribute("page", page);
         model.addAttribute("searchParam", param);
 		
-		return "/blogs/search/articles";
+		return "blogs/search/articles";
 	}
 	
 	@GetMapping("/search/users")
@@ -85,7 +88,7 @@ public class HomeController {
 		model.addAttribute("page", page);
 		model.addAttribute("searchParam", param);
 		
-		return "/blogs/search/users";
+		return "blogs/search/users";
 	}
 	
 	@GetMapping("/past")
@@ -104,7 +107,7 @@ public class HomeController {
 		model.addAttribute("page", page);
 		model.addAttribute("url", "/past");
 		
-		return "/blogs/past";
+		return "blogs/past";
 	}
 	
 	@GetMapping("/like")
@@ -123,7 +126,7 @@ public class HomeController {
 		model.addAttribute("page", page);
 		model.addAttribute("url", "/like");
 		
-		return "/blogs/like";
+		return "blogs/like";
 	}
 	
 	@GetMapping("/bookmark")
@@ -141,7 +144,7 @@ public class HomeController {
 		model.addAttribute("page", page);
 		model.addAttribute("url", "/bookmark");
 		
-		return "/blogs/bookmark";
+		return "blogs/bookmark";
 	}
 	
 	@GetMapping("/show/icon")
@@ -182,6 +185,6 @@ public class HomeController {
         model.addAttribute("otherUser", user);
         model.addAttribute("article",article);
         
-        return "/blogs/article";
+        return "blogs/article";
     }
 }

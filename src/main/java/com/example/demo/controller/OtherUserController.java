@@ -47,7 +47,7 @@ public class OtherUserController {
 		model.addAttribute("otherUser", otherUser);
 		model.addAttribute("page", page);
 		
-		return "/blogs/home";
+		return "blogs/home";
 	}
 	
 	@GetMapping("/search/articles/{userId}")
@@ -66,7 +66,7 @@ public class OtherUserController {
         model.addAttribute("page", page);
         model.addAttribute("searchParam", param);
 		
-		return "/blogs/search/articles";
+		return "blogs/search/articles";
 	}
 	
 	@GetMapping("/search/users/{userId}")
@@ -85,7 +85,7 @@ public class OtherUserController {
 		model.addAttribute("page", page);
 		model.addAttribute("searchParam", param);
 		
-		return "/blogs/search/users";
+		return "blogs/search/users";
 	}
 	
 	@GetMapping("/past/{userId}")
@@ -104,7 +104,7 @@ public class OtherUserController {
 		model.addAttribute("page", page);
 		model.addAttribute("url", "/past/" + userId);
 		
-		return "/blogs/past";
+		return "blogs/past";
 	}
 	
 	@GetMapping("/like/{userId}")
@@ -123,7 +123,7 @@ public class OtherUserController {
 		model.addAttribute("page", page);
 		model.addAttribute("url", "/like/" + userId);
 		
-		return "/blogs/like";
+		return "blogs/like";
 	}
 	
 	@GetMapping("/bookmark/{userId}")
@@ -141,7 +141,7 @@ public class OtherUserController {
 		model.addAttribute("page", page);
 		model.addAttribute("url", "/bookmark/" + userId);
 		
-		return "/blogs/bookmark";
+		return "blogs/bookmark";
 	}
 
 	@GetMapping("/show/icon/{id}")
@@ -183,6 +183,6 @@ public class OtherUserController {
         model.addAttribute("otherUser", otherUser);
         model.addAttribute("article",article);
         
-        return "/blogs/article";
+        return "blogs/article";
     }
 }

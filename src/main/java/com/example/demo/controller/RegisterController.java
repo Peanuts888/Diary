@@ -25,7 +25,7 @@ public class RegisterController {
 	
 	@GetMapping("/register")
     public String register(@ModelAttribute RegisterForm registerForm) {
-        return "/common/register";
+        return "common/register";
     }
 
     @PostMapping("/register")
@@ -33,7 +33,7 @@ public class RegisterController {
     		BindingResult result) {
     	
     	if (result.hasErrors()) {
-            return "/common/register";
+            return "common/register";
         }
     	
     	User user = registerForm.toEntity();

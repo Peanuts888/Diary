@@ -1,1 +1,1 @@
-web: java -jar target/spring-boot-sample-1.0.jar --server.port=$PORT
+web: java -jar target/portfolio-0.0.1-SNAPSHOT.jar -Dserver.port=$PORT
