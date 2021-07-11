@@ -1,12 +1,11 @@
 $(function() {
   let id = $('body').data('article-id');
   let loginUserId = $('body').data('login-user-id');
-  let SERVER_URL = $('body').data('server-url');
   
   $.getJSON("/like/count/" + id, function(count) {
     $('.like-count').text(count);
   });
-  $.getJSON(SERVER_URL + "/bookmark/count/" + id, function(count) {
+  $.getJSON("/bookmark/count/" + id, function(count) {
     $('.bookmark-count').text(count);
   });
   
@@ -18,7 +17,7 @@ $(function() {
       };
       
       $.ajax({
-        url: 'http://localhost:8080/like/change',
+        url: '/like/change',
         type: 'POST',
         data: JSON.stringify(data),
         dataType: 'json',
@@ -36,7 +35,7 @@ $(function() {
       };
       
       $.ajax({
-        url: 'http://localhost:8080/bookmark/change',
+        url: '/bookmark/change',
         type: 'POST',
         data: JSON.stringify(data),
         dataType: 'json',

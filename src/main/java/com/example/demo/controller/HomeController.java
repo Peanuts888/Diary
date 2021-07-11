@@ -2,9 +2,7 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.example.demo.model.Article;
 import com.example.demo.model.User;
 import com.example.demo.service.ArticleService;
@@ -181,12 +178,10 @@ public class HomeController {
     public String article(Authentication loginUser, Model model, @PathVariable Integer id) {
         User user = userService.findOne(loginUser.getName());
         Article article = articleService.findOne(id);
-        final String SERVER_URL = System.getenv().get("SERVER_URL");
         
         model.addAttribute("loginUser", user);
         model.addAttribute("otherUser", user);
         model.addAttribute("article",article);
-        model.addAttribute("SERVER_URL", SERVER_URL);
         
         return "blogs/article";
     }
