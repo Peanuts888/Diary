@@ -49,9 +49,14 @@ public class User {
 	@Column(name = "link")
 	private String link;
 	
-	@Column(name = "icon", columnDefinition = "MEDIUMBLOB")
+	@Column(name = "icon", columnDefinition = "BYTEA")
 	private byte[] icon;
 	
-	@Column(name = "header_image", columnDefinition = "MEDIUMBLOB")
+	@Column(name = "header_image", columnDefinition = "BYTEA")
 	private byte[] headerImage;
+//	@Column(name = "icon", columnDefinition = "MEDIUMBLOB")
+//	private byte[] icon;
+//	
+//	@Column(name = "header_image", columnDefinition = "MEDIUMBLOB")
+//	private byte[] headerImage;
 }
