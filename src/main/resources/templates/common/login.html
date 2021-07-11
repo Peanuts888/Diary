@@ -24,7 +24,7 @@
                     <small>ログアウトしました</small>
                   </div>
 				
-				<form th:action="@{/login}" method="post">
+				<form th:action="@{login}" method="post">
 					<div class="form-group">
 						<input type="text" class="form-control"
 						name="username" placeholder="アカウント名">
@@ -48,7 +48,7 @@
 						</button>
 					</div>
 				</form>
-					<a th:href="@{/register}">
+					<a th:href="@{register}">
 						<button class="btn btn-light btn- btn-block">
 						新規登録
 						</button>

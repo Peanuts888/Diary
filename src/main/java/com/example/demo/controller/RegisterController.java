@@ -9,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.example.demo.form.RegisterForm;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
@@ -23,12 +22,12 @@ public class RegisterController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/register")
+	@GetMapping("register")
     public String register(@ModelAttribute RegisterForm registerForm) {
         return "common/register";
     }
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public String register(@Validated @ModelAttribute RegisterForm registerForm,
     		BindingResult result) {
     	
