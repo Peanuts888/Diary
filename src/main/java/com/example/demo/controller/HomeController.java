@@ -181,9 +181,12 @@ public class HomeController {
     public String article(Authentication loginUser, Model model, @PathVariable Integer id) {
         User user = userService.findOne(loginUser.getName());
         Article article = articleService.findOne(id);
+        final String SERVER_URL = System.getenv().get("SERVER_URL");
+        
         model.addAttribute("loginUser", user);
         model.addAttribute("otherUser", user);
         model.addAttribute("article",article);
+        model.addAttribute("SERVER_URL", SERVER_URL);
         
         return "blogs/article";
     }

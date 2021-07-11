@@ -5,7 +5,7 @@
 	<th:block th:insert="fragments/base :: header"></th:block>
 	<title th:text="${article.title}"></title>
 </head>
-<body th:data-login-user-id="${loginUser.id}" th:data-article-id="${article.id}">
+<body th:data-login-user-id="${loginUser.id}" th:data-article-id="${article.id}" th:data-server-url="SERVER_URL">
 	<div class="container mt-3">
 		<div class="row">
 			<th:block th:insert="fragments/sidebar :: sidebar"></th:block>

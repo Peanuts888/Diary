@@ -1,11 +1,12 @@
 $(function() {
   let id = $('body').data('article-id');
   let loginUserId = $('body').data('login-user-id');
+  let SERVER_URL = $('body').data('server-url');
   
-  $.getJSON("http://localhost:8080/like/count/" + id, function(count) {
+  $.getJSON("/like/count/" + id, function(count) {
     $('.like-count').text(count);
   });
-  $.getJSON("http://localhost:8080/bookmark/count/" + id, function(count) {
+  $.getJSON(SERVER_URL + "/bookmark/count/" + id, function(count) {
     $('.bookmark-count').text(count);
   });
   
