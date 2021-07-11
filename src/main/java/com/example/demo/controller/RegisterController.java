@@ -22,12 +22,12 @@ public class RegisterController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("register")
+	@GetMapping("/register")
     public String register(@ModelAttribute RegisterForm registerForm) {
         return "common/register";
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public String register(@Validated @ModelAttribute RegisterForm registerForm,
     		BindingResult result) {
     	
